@@ -228,6 +228,19 @@ main {
   text-align: center;
 }
 
+.popup-content {
+  background: none;
+}
+
+.popup-button {
+  background-color: #000;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
 body.overlay {
   background-color: rgba(0, 0, 0, 0.8);
   overflow: hidden;
@@ -239,4 +252,8 @@ body.overlay #main-content {
 
 body.overlay #header, body.overlay #footer {
   opacity: 0.5;
+}
+
+.hidden {
+  display: none;
 }
