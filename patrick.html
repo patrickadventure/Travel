@@ -40,18 +40,30 @@
       });
     });
 
-    function getChartData(isDrunk) {
+    function getChartOptions(isDrunk) {
       return {
-        labels: ['Confidence', 'Bothersome', 'Destruction', 'Gentleness', 'Speech'],
-        datasets: [{
-          label: 'Patrick\'s Stats',
-          data: [50, 55, 5, 85, 65],
-          backgroundColor: isDrunk ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)', // Change based on mode
-          borderColor: isDrunk ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)', // Change based on mode
-          borderWidth: 1
-        }]
+        scales: {
+          r: {
+            beginAtZero: true,
+            grid: {
+              color: isDrunk ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.1)', // Lighter grid lines for drunk mode, darker for sober
+            },
+            angleLines: {
+              color: isDrunk ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.1)', // Same as grid
+            },
+            pointLabels: {
+              color: isDrunk ? '#fff' : '#000', // White labels for drunk mode, black for sober
+            },
+            ticks: {
+              display: false
+            }
+          }
+        },
+        legend: {
+          display: false  // Hides the legend
+        }
       };
-    }
+    }  
 
     function getChartOptions() {
       return {
@@ -82,11 +94,13 @@
       const sound = document.getElementById('drunkModeSound');
       if (isDrunk) {
         document.body.classList.add('drunk-mode');
+        myRadarChart.options = getChartOptions(true); // Update chart options to drunk mode settings
         myRadarChart.data = getChartData(true); // Update chart to drunk mode colors
         myRadarChart.update(); // Apply the changes to the chart
         sound.play().catch(e => console.error('Error playing sound:', e));
       } else {
         document.body.classList.remove('drunk-mode');
+        myRadarChart.options = getChartOptions(false); // Update chart options to sober mode settings
         myRadarChart.data = getChartData(false); // Update chart to sober mode colors
         myRadarChart.update(); // Apply the changes to the chart
         sound.pause();
