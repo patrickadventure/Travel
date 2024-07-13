@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Patrick Dhital - Profile</title>
+  <title>Julia Ri - Profile</title>
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -60,8 +60,8 @@
       const ctx = document.getElementById('radarChart').getContext('2d');
       myRadarChart = new Chart(ctx, {
         type: 'radar',
-        data: getChartData(false), // Initial call with sober mode data
-        options: getChartOptions()
+        data: getChartData(false),
+        options: getChartOptions(false)
       });
     });
 
@@ -97,8 +97,10 @@
                     }
                 }
             },
-            legend: {
-                display: false
+            plugins: {
+                legend: {
+                    display: false
+                }
             }
         };
     }
@@ -119,7 +121,6 @@
             myRadarChart.data = getChartData(true, true);
             myRadarChart.update();
 
-            // Update Bio Content for Drunk Mode
             bioContent.innerHTML = `
                 <p>It's over lads...You've done it, you've awakened a <strong>beast</strong>. There's no going back from here, the Himalayan Persuasion is in full action. Did you give him something to hold onto? Sorry, it's gone. Felt like a quiet night in? Sorry, but it's party time til 4am. Wanted to stay low key? Sorry, but you're going to be speaking to complete randoms</p>
                 <div class="skills-container">
@@ -151,7 +152,6 @@
             myRadarChart.data = getChartData(false, false);
             myRadarChart.update();
 
-            // Reset Bio Content for Sober Mode
             bioContent.innerHTML = `
                 <p>This guy's the embodiment of "clumsiness". He has a big heart, loves his wife, loves his family, but...he also loses anything and everything on the planet. You can trust him with anything, but don't trust him with anything materialistic. His skills are primarily in gentleness, and a degree of confidence that gets him by. Unfortunately, he is quite bothersome.</p>
                 <div class="skills-container">
