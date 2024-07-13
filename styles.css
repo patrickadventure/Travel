@@ -288,9 +288,12 @@ body, .profile-view {
 }
 
 .buttons {
+    position: absolute;
+    top: 10px;
+    left: 10px; /* Move from right to left */
     display: flex;
-    flex-direction: column; /* Keeps buttons vertical */
-    align-items: flex-start; /* Aligns buttons to the left */
+    gap: 10px; /* Keeps buttons side by side */
+    flex-direction: row; /* Ensures buttons are in a row */
 }
 
 .drunk-mode .skill-box, .drunk-mode .weakness-box {
