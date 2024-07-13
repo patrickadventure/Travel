@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
+  loadHeaderFooter(); // Load header and footer content
+
   const ctx = document.getElementById('radarChart').getContext('2d');
   new Chart(ctx, {
     type: 'radar',
@@ -38,6 +40,20 @@ document.addEventListener('DOMContentLoaded', function () {
     button.classList.remove('hidden');
   }, 3000);
 });
+
+function loadHeaderFooter() {
+  fetch('header.html')
+    .then(response => response.text())
+    .then(data => {
+      document.body.insertAdjacentHTML('afterbegin', data);
+    });
+
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(data => {
+      document.body.insertAdjacentHTML('beforeend', data);
+    });
+}
 
 function showDrunkModePopup() {
   const popup = document.getElementById('drunkModePopup');
