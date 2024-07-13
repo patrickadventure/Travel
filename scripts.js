@@ -1,44 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
-  loadHeaderFooter(); // Load header and footer content
+  loadHeaderFooter();
 
-  const ctx = document.getElementById('radarChart').getContext('2d');
-  new Chart(ctx, {
-    type: 'radar',
-    data: {
-      labels: ['Confidence', 'Bothersome', 'Destruction', 'Gentleness', 'Speech'],
-      datasets: [{
-        label: 'Patrick\'s Stats',
-        data: [50, 55, 5, 85, 65],
-        backgroundColor: 'rgba(0, 0, 0, 0.1)',
-        borderColor: 'rgba(0, 0, 0, 1)',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        r: {
-          beginAtZero: true,
-          grid: {
-            color: 'rgba(0, 0, 0, 0.1)'
-          },
-          angleLines: {
-            color: 'rgba(0, 0, 0, 0.1)'
-          },
-          pointLabels: {
-            color: '#000'
-          },
-          ticks: {
-            display: false
-          }
-        }
-      }
-    }
-  });
-
-  setTimeout(function () {
-    const button = document.getElementById('drunkModeButton');
-    button.classList.remove('hidden');
-  }, 3000);
+  const dropdown = document.querySelector('.dropdown > a');
+  if (dropdown) {
+    dropdown.addEventListener('click', function (e) {
+      e.preventDefault();
+      this.parentElement.classList.toggle('active');
+    });
+  }
 });
 
 function loadHeaderFooter() {
@@ -57,15 +26,18 @@ function loadHeaderFooter() {
 
 function showDrunkModePopup() {
   const popup = document.getElementById('drunkModePopup');
-  popup.style.display = 'flex';
+  popup.classList.remove('hidden');
   document.body.classList.add('overlay');
 }
 
 function unlockDrunkMode() {
   const popup = document.getElementById('drunkModePopup');
-  popup.style.display = 'none';
+  popup.classList.add('hidden');
   document.body.classList.remove('overlay');
+  const buttonContainer = document.querySelector('.profile-view .stats button');
+  buttonContainer.style.display = 'block';
+}
 
-  const buttonContainer = document.getElementById('drunkModeButton');
-  buttonContainer.classList.remove('hidden');
+function goBack() {
+  window.history.back();
 }
