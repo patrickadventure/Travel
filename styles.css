@@ -33,7 +33,6 @@ header nav ul li a {
   text-decoration: none;
   color: #333;
   font-weight: 200;
-  padding: 10px; /* Increase touch target size */
 }
 
 header nav ul li .dropdown-content {
@@ -59,40 +58,51 @@ header nav ul li .dropdown-content li a:hover {
   background-color: #ddd;
 }
 
-header nav ul li:hover .dropdown-content,
-header nav ul li:focus-within .dropdown-content {
+header nav ul li:hover .dropdown-content {
   display: block;
 }
 
-/* Mobile styles */
 @media (max-width: 600px) {
   header nav ul {
     flex-direction: column;
   }
 
-  header nav ul li {
-    width: 100%;
-  }
-
-  header nav ul li a {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 15px 20px; /* Increase touch target size */
-  }
-
   header nav ul li .dropdown-content {
     position: static;
-    width: 100%;
-    box-sizing: border-box;
   }
 
   header nav ul li .dropdown-content li a {
     padding-left: 20px;
   }
 
+  header nav ul li:hover .dropdown-content {
+    display: none;
+  }
+
   header nav ul li.active .dropdown-content {
     display: block;
+  }
+
+  /* Add the following styles */
+  .profile-view {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-view .buttons {
+    position: static;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center; /* Centers the buttons */
+  }
+
+  .profile-view .profile-header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-info {
+    margin-bottom: 20px;
   }
 }
 
@@ -348,11 +358,11 @@ body, .profile-view {
 
 .name-nickname h3 {
     margin: 0;
-    margin-bottom: 5px;  /* Adds a small space between the name and the nickname */
-    font-size: 24px;  /* Main name size */
+    margin-bottom: 5px;  // Adds a small space between the name and the nickname
+    font-size: 24px;  // Main name size
 }
 
 .name-nickname p {
     margin: 0;
-    font-size: 14px;  /* Smaller font size for the nickname/role */
+    font-size: 14px;  // Smaller font size for the nickname/role
 }
