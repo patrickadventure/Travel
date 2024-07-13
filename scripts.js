@@ -1,11 +1,26 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const dropdown = document.querySelector('.dropdown > a');
+  loadHeaderFooter();
 
+  const dropdown = document.querySelector('.dropdown > a');
   dropdown.addEventListener('click', function (e) {
     e.preventDefault();
     this.parentElement.classList.toggle('active');
   });
 });
+
+function loadHeaderFooter() {
+  fetch('header.html')
+    .then(response => response.text())
+    .then(data => {
+      document.body.insertAdjacentHTML('afterbegin', data);
+    });
+
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(data => {
+      document.body.insertAdjacentHTML('beforeend', data);
+    });
+}
 
 function viewProfile(name) {
   const profiles = {
@@ -16,16 +31,8 @@ function viewProfile(name) {
       posts: 523,
       likes: 1387,
       followers: 146
-    },
-    jessica: {
-      name: 'Jessica Potter',
-      job: 'Visual Artist',
-      image: 'https://via.placeholder.com/70',
-      posts: 420,
-      likes: 2500,
-      followers: 300
     }
-    // Add more profiles here
+    // Add more profiles here as needed
   };
 
   const profile = profiles[name];
@@ -66,14 +73,6 @@ function goBack() {
         <div class="name">Patrick Dhital</div>
         <div class="job">Role or Job Title</div>
         <button class="btn" onclick="viewProfile('patrick')">View Profile</button>
-      </div>
-      <div class="profile-card" onclick="viewProfile('jessica')">
-        <div class="image">
-          <img src="https://via.placeholder.com/70" width="70" height="70" alt="Jessica Potter">
-        </div>
-        <div class="name">Jessica Potter</div>
-        <div class="job">Visual Artist</div>
-        <button class="btn" onclick="viewProfile('jessica')">View Profile</button>
       </div>
       <!-- Add more profiles here -->
     </div>
