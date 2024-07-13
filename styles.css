@@ -265,3 +265,12 @@ body, .profile-view {
 .drunk-mode button:hover {
   background-color: #777; /* Lighter grey on hover */
 }
+
+.profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%; /* Circular image */
+    display: block; /* Centers the image if not flex-aligned */
+    margin: 0 auto 20px; /* Centers horizontally and adds space below */
+}
+
