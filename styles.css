@@ -183,11 +183,11 @@ main {
 .profile-view .buttons {
   position: absolute;
   top: 10px; /* Increased from 0 for top padding */
-  right: 10px; /* Increased from 0 for right padding */
+  left: 10px; /* Move from right to left */
   display: flex;
-  gap: 10px;
+  gap: 10px; /* Keeps buttons side by side */
+  flex-direction: row; /* Ensures buttons are in a row */
 }
-
 
 .profile-view .buttons button {
   padding: 10px 20px;
@@ -220,6 +220,24 @@ main {
 
   .profile-view .right {
     flex: 1;
+  }
+
+  .profile-view .buttons {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .profile-view .buttons {
+    position: static; /* Removes absolute positioning */
+    margin-top: 20px; /* Adds some space above the buttons */
+    justify-content: center; /* Centers the buttons horizontally */
+    flex-direction: row; /* Ensures buttons are in a row */
+  }
+
+  .buttons button {
+    margin-bottom: 0; /* Removes the bottom margin */
   }
 }
 
@@ -287,15 +305,6 @@ body, .profile-view {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Soft shadow for depth */
 }
 
-.buttons {
-    position: absolute;
-    top: 10px;
-    left: 10px; /* Move from right to left */
-    display: flex;
-    gap: 10px; /* Keeps buttons side by side */
-    flex-direction: row; /* Ensures buttons are in a row */
-}
-
 .drunk-mode .skill-box, .drunk-mode .weakness-box {
     background-color: #333; /* Darker background for visibility in drunk mode */
     color: #fff; /* Light text color for better contrast */
@@ -304,21 +313,6 @@ body, .profile-view {
 
 .drunk-mode .bio p, .drunk-mode .bio h3 {
     color: #ccc; /* Adjust text color within the biography section for consistency */
-}
-
-/* Enhanced button styling */
-.buttons button {
-    margin-bottom: 10px; /* Space between buttons */
-    padding: 10px 20px;
-    background-color: #000;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-.buttons button:hover {
-    background-color: #333; /* Darker on hover */
 }
 
 .profile-header {
