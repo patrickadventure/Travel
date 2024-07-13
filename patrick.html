@@ -13,7 +13,7 @@
     <div class="profile-view">
       <div class="stats">
         <canvas id="radarChart"></canvas>
-        <button id="drunkModeButton" class="hidden" onclick="showDrunkModePopup()">Unlock Drunk Mode</button>
+        <button id="drunkModeButton" onclick="toggleDrunkMode()">Drunk Mode</button>
       </div>
       <div class="right">
         <h2>Biography</h2>
@@ -23,13 +23,6 @@
       </div>
     </div>
   </main>
-
-  <div id="drunkModePopup" class="hidden popup-overlay">
-    <div class="popup-content">
-      <button class="popup-button" onclick="unlockDrunkMode()">Unlock Drunk Mode</button>
-    </div>
-  </div>
-
   <script src="scripts.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -66,27 +59,10 @@
           }
         }
       });
-
-      setTimeout(function () {
-        const button = document.getElementById('drunkModeButton');
-        button.classList.remove('hidden');
-      }, 3000);
     });
 
-    function showDrunkModePopup() {
-      const popup = document.getElementById('drunkModePopup');
-      popup.classList.remove('hidden');
-      document.body.classList.add('overlay');
-    }
-
-    function unlockDrunkMode() {
-      const popup = document.getElementById('drunkModePopup');
-      popup.style.display = 'none';
-      document.body.classList.remove('overlay');
-
-      const buttonContainer = document.getElementById('drunkModeButton');
-      buttonContainer.classList.remove('hidden');
-      buttonContainer.style.display = 'block';
+    function toggleDrunkMode() {
+      document.body.classList.toggle('drunk-mode');
     }
   </script>
 </body>
