@@ -192,3 +192,16 @@ main {
   font-size: 14px;
   cursor: pointer;
 }
+
+body.overlay {
+  background-color: rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+}
+
+body.overlay #main-content {
+  opacity: 0.5;
+}
+
+body.overlay #header, body.overlay #footer {
+  opacity: 0.5;
+}
