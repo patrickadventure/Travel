@@ -83,17 +83,18 @@ header nav ul li:hover .dropdown-content {
     display: block;
   }
 
-  /* Add the following styles */
   .profile-view {
     flex-direction: column;
     align-items: center;
   }
 
   .profile-view .buttons {
-    position: static;
-    margin-bottom: 20px;
+    position: static; /* Removes absolute positioning */
+    margin-top: 20px; /* Adds some space above the buttons */
     display: flex;
-    justify-content: center; /* Centers the buttons */
+    justify-content: center; /* Centers the buttons horizontally */
+    gap: 10px;
+    flex-direction: row; /* Ensures buttons are in a row */
   }
 
   .profile-view .profile-header {
@@ -103,6 +104,10 @@ header nav ul li:hover .dropdown-content {
 
   .profile-info {
     margin-bottom: 20px;
+  }
+
+  .buttons button {
+    margin-bottom: 0; /* Removes the bottom margin */
   }
 }
 
@@ -250,19 +255,6 @@ main {
   }
 }
 
-@media (max-width: 600px) {
-  .profile-view .buttons {
-    position: static; /* Removes absolute positioning */
-    margin-top: 20px; /* Adds some space above the buttons */
-    justify-content: center; /* Centers the buttons horizontally */
-    flex-direction: row; /* Ensures buttons are in a row */
-  }
-
-  .buttons button {
-    margin-bottom: 0; /* Removes the bottom margin */
-  }
-}
-
 /* Drunk Mode specific styles */
 .drunk-mode {
   background-color: #000; /* Entire page black */
@@ -358,11 +350,11 @@ body, .profile-view {
 
 .name-nickname h3 {
     margin: 0;
-    margin-bottom: 5px;  // Adds a small space between the name and the nickname
-    font-size: 24px;  // Main name size
+    margin-bottom: 5px;  /* Adds a small space between the name and the nickname */
+    font-size: 24px;  /* Main name size */
 }
 
 .name-nickname p {
     margin: 0;
-    font-size: 14px;  // Smaller font size for the nickname/role
+    font-size: 14px;  /* Smaller font size for the nickname/role */
 }
