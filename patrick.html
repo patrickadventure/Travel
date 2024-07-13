@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Patrick Dhital - Profile</title>
+  <title>Julia Ri - Profile</title>
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -28,7 +28,7 @@
                   <button id="soberModeButton" onclick="toggleDrunkMode(false)">Sober Mode</button>
               </div>
           </div>
-          <div class="bio">
+          <div class="bio" id="bioContent">
               <p>This guy's the embodiment of "clumsiness". He has a big heart, loves his wife, loves his family, but...he also loses anything and everything on the planet. You can trust him with anything, but don't trust him with anything materialistic. His skills are primarily in gentleness, and a degree of confidence that gets him by. Unfortunately, he is quite bothersome.</p>
               <div class="skills-container">
                   <div class="skill-box">
@@ -54,8 +54,7 @@
   <audio id="drunkModeSound" src="audio/my-audio-file.mp3"></audio>
   <audio id="backgroundMusic" src="audio/background-music.mp3"></audio>
   <script>
-    // Your JavaScript here
-    var myRadarChart; // Variable to hold the chart instance
+    var myRadarChart;
 
     document.addEventListener('DOMContentLoaded', function() {
       const ctx = document.getElementById('radarChart').getContext('2d');
@@ -94,12 +93,12 @@
                         color: isDrunk ? '#fff' : '#000',
                     },
                     ticks: {
-                        display: false  // Ensures tick marks are not displayed
+                        display: false
                     }
                 }
             },
             legend: {
-                display: false  // Ensures the legend is not displayed
+                display: false
             }
         };
     }
@@ -107,8 +106,7 @@
     function toggleDrunkMode(isDrunk) {
         const body = document.body;
         const profileImage = document.getElementById('profileImage');
-        const keySkills = document.getElementById('keySkills');
-        const keyWeaknesses = document.getElementById('keyWeaknesses');
+        const bioContent = document.getElementById('bioContent');
         const sound = document.getElementById('drunkModeSound');
         const backgroundMusic = document.getElementById('backgroundMusic');
 
@@ -116,62 +114,71 @@
     
         if (isDrunk) {
             body.classList.add('drunk-mode');
-            profileImage.src = 'https://i.imgur.com/t988DDb.png';  // Drunk mode image
+            profileImage.src = 'https://i.imgur.com/t988DDb.png';
             myRadarChart.options = getChartOptions(true);
-            myRadarChart.data = getChartData(true, true); // Pass true for drunk stats
+            myRadarChart.data = getChartData(true, true);
             myRadarChart.update();
-    
-            // Update Key Strengths and Weaknesses for Drunk Mode
-            keySkills.innerHTML = `
-                <p>Shyness Immunity</p>
-                <p>Will Fight Bullies</p>
-                <p>Likes To Have Fun</p>
-            `;
-            keyWeaknesses.innerHTML = `
-                <p>Yappinator</p>
-                <p>Enlightened Forgetfulness</p>
-                <p>Hearing Loss</p>
+
+            // Update Bio Content for Drunk Mode
+            bioContent.innerHTML = `
+                <p>It's over lads...You've done it, you've awakened a <strong>beast</strong>. There's no going back from here, the Himalayan Persuasion is in full action. Did you give him something to hold onto? Sorry, it's gone. Felt like a quiet night in? Sorry, but it's party time til 4am. Wanted to stay low key? Sorry, but you're going to be speaking to complete randoms</p>
+                <div class="skills-container">
+                    <div class="skill-box">
+                        <h3>Key Strengths</h3>
+                        <div id="keySkills">
+                            <p>Shyness Immunity</p>
+                            <p>Will Fight Bullies</p>
+                            <p>Likes To Have Fun</p>
+                        </div>
+                    </div>
+                    <div class="weakness-box">
+                        <h3>Key Weaknesses</h3>
+                        <div id="keyWeaknesses">
+                            <p>Yappinator</p>
+                            <p>Enlightened Forgetfulness</p>
+                            <p>Hearing Loss</p>
+                        </div>
+                    </div>
+                </div>
             `;
     
             backgroundMusic.play().catch(e => console.error('Error playing sound:', e));
             sound.play().catch(e => console.error('Error playing sound:', e));
         } else {
             body.classList.remove('drunk-mode');
-            profileImage.src = 'https://i.imgur.com/wHVzcz7.png';  // Sober mode image
+            profileImage.src = 'https://i.imgur.com/wHVzcz7.png';
             myRadarChart.options = getChartOptions(false);
-            myRadarChart.data = getChartData(false, false); // Pass false for sober stats
+            myRadarChart.data = getChartData(false, false);
             myRadarChart.update();
-    
-            // Reset Key Strengths and Weaknesses for Sober Mode
-            keySkills.innerHTML = `
-                <p>Problem solver (solves the problems he creates)</p>
-                <p>Great drinking buddy</p>
-                <p>League of Legends</p>
-            `;
-            keyWeaknesses.innerHTML = `
-                <p>Fear</p>
-                <p>Keeping any physical item</p>
-                <p>Remembering anything</p>
-            `;
-    
-            fadeOutAudio(backgroundMusic);
-            sound.pause();
-            sound.currentTime = 0;  // Reset the audio to the start
-        }
-    }
 
+            // Reset Bio Content for Sober Mode
+            bioContent.innerHTML = `
+                <p>This guy's the embodiment of "clumsiness". He has a big heart, loves his wife, loves his family, but...he also loses anything and everything on the planet. You can trust him with anything, but don't trust him with anything materialistic. His skills are primarily in gentleness, and a degree of confidence that gets him by. Unfortunately, he is quite bothersome.</p>
+                <div class="skills-container">
+                    <div class="skill-box">
+                        <h3>Key Strengths</h3>
+                        <div id="keySkills">
+                            <p>Problem solver (solves the problems he creates)</p>
+                            <p>Great drinking buddy</p>
+                            <p>League of Legends</p>
+                        </div>
+                    </div>
+                    <div class="weakness-box">
+                        <h3>Key Weaknesses</h3>
+                        <div id="keyWeaknesses">
+                            <p>Fear</p>
+                            <p>Keeping any physical item</p>
+                            <p>Remembering anything</p>
+                        </div>
+                    </div>
+                </div>
+            `;
     
-    // Function to gradually decrease the volume of an audio element and pause it
-    function fadeOutAudio(audioElement) {
-        let fadeOutInterval = setInterval(() => {
-            if (audioElement.volume > 0.05) {
-                audioElement.volume -= 0.05;  // Decrease volume by 0.05
-            } else {
-                audioElement.pause();  // Pause the audio when the volume is low
-                audioElement.volume = 0.5;  // Reset volume for next time it plays
-                clearInterval(fadeOutInterval);  // Clear the interval
-            }
-        }, 100);  // Run this every 100 milliseconds
+            backgroundMusic.pause();
+            backgroundMusic.currentTime = 0;
+            sound.pause();
+            sound.currentTime = 0;
+        }
     }
   </script>
   <script src="scripts.js"></script>
