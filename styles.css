@@ -274,3 +274,32 @@ body, .profile-view {
     margin: 0 auto 20px; /* Centers horizontally and adds space below */
 }
 
+.skills-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.skill-box, .weakness-box {
+    flex: 1;
+    padding: 15px;
+    background-color: #f0f0f0; /* Light grey background for distinction */
+    margin: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Soft shadow for depth */
+}
+
+.buttons {
+    margin-top: 20px; /* Ensure spacing between text and buttons */
+    display: flex;
+    justify-content: center; /* Center the buttons if that's preferred */
+}
+
+.drunk-mode .skill-box, .drunk-mode .weakness-box {
+    background-color: #333; /* Darker background for visibility in drunk mode */
+    color: #fff; /* Light text color for better contrast */
+    border: 1px solid #444; /* Optional: add a border to enhance visibility */
+}
+
+.drunk-mode .bio p, .drunk-mode .bio h3 {
+    color: #ccc; /* Adjust text color within the biography section for consistency */
+}
