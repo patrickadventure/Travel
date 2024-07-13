@@ -1,28 +1,43 @@
 document.addEventListener('DOMContentLoaded', function () {
-  loadHeaderFooter();
+  const ctx = document.getElementById('radarChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: ['Confidence', 'Bothersome', 'Destruction', 'Gentleness', 'Speech'],
+      datasets: [{
+        label: 'Patrick\'s Stats',
+        data: [50, 55, 5, 85, 65],
+        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+        borderColor: 'rgba(0, 0, 0, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        r: {
+          beginAtZero: true,
+          grid: {
+            color: 'rgba(0, 0, 0, 0.1)'
+          },
+          angleLines: {
+            color: 'rgba(0, 0, 0, 0.1)'
+          },
+          pointLabels: {
+            color: '#000'
+          },
+          ticks: {
+            display: false
+          }
+        }
+      }
+    }
+  });
 
-  const dropdown = document.querySelector('.dropdown > a');
-  if (dropdown) {
-    dropdown.addEventListener('click', function (e) {
-      e.preventDefault();
-      this.parentElement.classList.toggle('active');
-    });
-  }
+  setTimeout(function () {
+    const button = document.getElementById('drunkModeButton');
+    button.classList.remove('hidden');
+  }, 3000);
 });
-
-function loadHeaderFooter() {
-  fetch('header.html')
-    .then(response => response.text())
-    .then(data => {
-      document.body.insertAdjacentHTML('afterbegin', data);
-    });
-
-  fetch('footer.html')
-    .then(response => response.text())
-    .then(data => {
-      document.body.insertAdjacentHTML('beforeend', data);
-    });
-}
 
 function showDrunkModePopup() {
   const popup = document.getElementById('drunkModePopup');
@@ -34,10 +49,17 @@ function unlockDrunkMode() {
   const popup = document.getElementById('drunkModePopup');
   popup.classList.add('hidden');
   document.body.classList.remove('overlay');
-  const buttonContainer = document.querySelector('.profile-view .stats button');
-  buttonContainer.style.display = 'block';
-}
 
-function goBack() {
-  window.history.back();
+  const button = document.getElementById('drunkModeButton');
+  button.style.backgroundColor = '#000';
+  button.style.color = '#fff';
+  button.style.fontFamily = 'Poppins, sans-serif';
+  button.textContent = 'Unlock Drunk Mode';
+
+  const stats = document.querySelector('.profile-view .stats');
+  const buttonContainer = stats.querySelector('button');
+  buttonContainer.style.position = 'absolute';
+  buttonContainer.style.top = '10px';
+  buttonContainer.style.right = '10px';
+  buttonContainer.style.display = 'block';
 }
