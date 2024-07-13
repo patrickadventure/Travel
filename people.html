@@ -6,24 +6,26 @@
   <title>People Involved - Travel</title>
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="scripts.js"></script>
 </head>
 <body>
   <main id="main-content">
     <h1>People Involved</h1>
     <div id="profiles">
-      <div class="profile-card" onclick="viewProfile('patrick')">
+      <div class="profile-card">
         <div class="image">
           <img src="https://via.placeholder.com/70" width="70" height="70" alt="Patrick Dhital">
         </div>
         <div class="name">Patrick Dhital</div>
         <div class="job">Role or Job Title</div>
-        <button class="btn" onclick="viewProfile('patrick')">View Profile</button>
+        <a href="patrick.html" class="btn">View Profile</a>
       </div>
       <!-- Add more profiles here -->
     </div>
   </main>
 
-  <script src="scripts.js"></script>
+  <script>
+    loadHeaderFooter();
+  </script>
 </body>
 </html>
