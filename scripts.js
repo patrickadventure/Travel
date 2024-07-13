@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
   loadHeaderFooter();
 
+  // Dropdown functionality for mobile view
   const dropdown = document.querySelector('.dropdown > a');
   if (dropdown) {
     dropdown.addEventListener('click', function (e) {
@@ -41,13 +42,3 @@ function unlockDrunkMode() {
 function goBack() {
   window.history.back();
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-  const dropdownToggle = document.querySelector('.dropdown-toggle');
-  const dropdownContent = document.querySelector('.dropdown-content');
-
-  dropdownToggle.addEventListener('click', function(e) {
-    e.preventDefault();
-    dropdownContent.classList.toggle('active');
-  });
-});
