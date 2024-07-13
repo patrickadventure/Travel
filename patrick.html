@@ -117,7 +117,9 @@
             myRadarChart.data = getChartData(true);
             myRadarChart.update();
     
-            backgroundMusic.play().catch(e => console.error('Error playing sound:', e)); // Play background music
+            backgroundMusic.currentTime = 0; // Reset audio to start
+            backgroundMusic.play().catch(e => console.error('Error playing sound:', e));
+            sound.currentTime = 0; // Reset audio to start
             sound.play().catch(e => console.error('Error playing sound:', e));
         } else {
             body.classList.remove('drunk-mode');
@@ -131,6 +133,7 @@
             sound.currentTime = 0;  // Reset the audio to the start
         }
     }
+
     
     // Function to gradually decrease the volume of an audio element and pause it
     function fadeOutAudio(audioElement) {
