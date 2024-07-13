@@ -41,3 +41,13 @@ function unlockDrunkMode() {
 function goBack() {
   window.history.back();
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  const dropdownToggle = document.querySelector('.dropdown-toggle');
+  const dropdownContent = document.querySelector('.dropdown-content');
+
+  dropdownToggle.addEventListener('click', function(e) {
+    e.preventDefault();
+    dropdownContent.classList.toggle('active');
+  });
+});
