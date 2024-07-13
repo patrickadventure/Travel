@@ -111,6 +111,8 @@
         const keyWeaknesses = document.getElementById('keyWeaknesses');
         const sound = document.getElementById('drunkModeSound');
         const backgroundMusic = document.getElementById('backgroundMusic');
+
+        backgroundMusic.volume = 0.5;
     
         if (isDrunk) {
             body.classList.add('drunk-mode');
@@ -166,7 +168,7 @@
                 audioElement.volume -= 0.05;  // Decrease volume by 0.05
             } else {
                 audioElement.pause();  // Pause the audio when the volume is low
-                audioElement.volume = 1;  // Reset volume for next time it plays
+                audioElement.volume = 0.5;  // Reset volume for next time it plays
                 clearInterval(fadeOutInterval);  // Clear the interval
             }
         }, 100);  // Run this every 100 milliseconds
