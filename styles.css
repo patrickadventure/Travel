@@ -82,6 +82,28 @@ header nav ul li:hover .dropdown-content {
   header nav ul li.active .dropdown-content {
     display: block;
   }
+
+  /* Add the following styles */
+  .profile-view {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-view .buttons {
+    position: static;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center; /* Centers the buttons */
+  }
+
+  .profile-view .profile-header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-info {
+    margin-bottom: 20px;
+  }
 }
 
 main {
