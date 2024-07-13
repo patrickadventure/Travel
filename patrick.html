@@ -26,7 +26,7 @@
       </div>
     </div>
   </main>
-  <audio id="drunkModeSound" src="https://s3.eu-central-1.wasabisys.com/audio.com.audio/transcoding/01/17/1804453119121701-1804453119312280-1804453123722728.mp3"></audio>
+  <audio id="drunkModeSound" src="audio/my-audio-file.mp3"></audio>
   <script>
     // Your JavaScript here
     var myRadarChart; // Variable to hold the chart instance
@@ -79,14 +79,18 @@
     }
 
     function toggleDrunkMode(isDrunk) {
+      const sound = document.getElementById('drunkModeSound');
       if (isDrunk) {
         document.body.classList.add('drunk-mode');
         myRadarChart.data = getChartData(true); // Update chart to drunk mode colors
         myRadarChart.update(); // Apply the changes to the chart
+        sound.play().catch(e => console.error('Error playing sound:', e));
       } else {
         document.body.classList.remove('drunk-mode');
         myRadarChart.data = getChartData(false); // Update chart to sober mode colors
         myRadarChart.update(); // Apply the changes to the chart
+        sound.pause();
+        sound.currentTime = 0; // Resets the audio to start
       }
     }
   </script>
