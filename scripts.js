@@ -41,13 +41,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function showDrunkModePopup() {
   const popup = document.getElementById('drunkModePopup');
-  popup.classList.remove('hidden');
+  popup.style.display = 'flex';
   document.body.classList.add('overlay');
 }
 
 function unlockDrunkMode() {
   const popup = document.getElementById('drunkModePopup');
-  popup.classList.add('hidden');
+  popup.style.display = 'none';
   document.body.classList.remove('overlay');
 
   const button = document.getElementById('drunkModeButton');
