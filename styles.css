@@ -336,3 +336,14 @@ body, .profile-view {
     flex-direction: column; /* Stack the name and nickname vertically */
     text-align: left; /* Aligns the text to the left */
 }
+
+.name-nickname h3 {
+    margin: 0;
+    margin-bottom: 5px;  // Adds a small space between the name and the nickname
+    font-size: 24px;  // Main name size
+}
+
+.name-nickname p {
+    margin: 0;
+    font-size: 14px;  // Smaller font size for the nickname/role
+}
