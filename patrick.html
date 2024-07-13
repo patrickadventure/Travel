@@ -79,28 +79,28 @@
     }
 
     function getChartOptions(isDrunk) {
-      return {
-        scales: {
-          r: {
-            beginAtZero: true,
-            grid: {
-              color: isDrunk ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.1)',
+        return {
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    grid: {
+                        color: isDrunk ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.1)',
+                    },
+                    angleLines: {
+                        color: isDrunk ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.1)',
+                    },
+                    pointLabels: {
+                        color: isDrunk ? '#fff' : '#000',
+                    },
+                    ticks: {
+                        display: false  // Ensures tick marks are not displayed
+                    }
+                }
             },
-            angleLines: {
-              color: isDrunk ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.1)',
-            },
-            pointLabels: {
-              color: isDrunk ? '#fff' : '#000',
-            },
-            ticks: {
-              display: false
+            legend: {
+                display: false  // Ensures the legend is not displayed
             }
-          }
-        },
-        legend: {
-          display: false  // This should correctly hide the legend
-        }
-      };
+        };
     }
 
     function toggleDrunkMode(isDrunk) {
