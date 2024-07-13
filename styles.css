@@ -182,11 +182,12 @@ main {
 
 .profile-view .buttons {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 10px; /* Increased from 0 for top padding */
+  right: 10px; /* Increased from 0 for right padding */
   display: flex;
   gap: 10px;
 }
+
 
 .profile-view .buttons button {
   padding: 10px 20px;
@@ -222,6 +223,22 @@ main {
   }
 }
 
+/* Drunk Mode specific styles */
 .drunk-mode {
-  filter: contrast(2);
+  background-color: #000; /* Entire page black */
+  color: #ccc; /* Lighter font for readability */
+}
+
+.drunk-mode .profile-view {
+  background-color: #333; /* Dark grey container */
+  color: #fff; /* White text for contrast */
+}
+
+.drunk-mode button {
+  background-color: #555; /* Darker buttons */
+  color: #fff; /* White text on buttons */
+}
+
+.drunk-mode button:hover {
+  background-color: #777; /* Lighter grey on hover */
 }
