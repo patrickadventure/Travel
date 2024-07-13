@@ -192,6 +192,10 @@ main {
   border: none;
 }
 
+.profile-view .stats #soberModeButton {
+  right: 120px; /* Position the Sober Mode button to the left of the Drunk Mode button */
+}
+
 @media (min-width: 600px) {
   .profile-view {
     flex-direction: row;
