@@ -13,7 +13,8 @@
     <div class="profile-view">
       <div class="stats">
         <canvas id="radarChart"></canvas>
-        <button id="drunkModeButton" onclick="toggleDrunkMode()">Drunk Mode</button>
+        <button id="drunkModeButton" onclick="toggleDrunkMode(true)">Drunk Mode</button>
+        <button id="soberModeButton" onclick="toggleDrunkMode(false)">Sober Mode</button>
       </div>
       <div class="right">
         <h2>Biography</h2>
@@ -61,8 +62,12 @@
       });
     });
 
-    function toggleDrunkMode() {
-      document.body.classList.toggle('drunk-mode');
+    function toggleDrunkMode(isDrunk) {
+      if (isDrunk) {
+        document.body.classList.add('drunk-mode');
+      } else {
+        document.body.classList.remove('drunk-mode');
+      }
     }
   </script>
 </body>
