@@ -26,59 +26,69 @@
       </div>
     </div>
   </main>
-  <script src="scripts.js"></script>
+  <audio id="drunkModeSound" src="https://s3.eu-central-1.wasabisys.com/audio.com.audio/transcoding/01/17/1804453119121701-1804453119312280-1804453123722728.mp3"></audio>
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const ctx = document.getElementById('radarChart').getContext('2d');
-      new Chart(ctx, {
-        type: 'radar',
-        data: {
-          labels: ['Confidence', 'Bothersome', 'Destruction', 'Gentleness', 'Speech'],
-          datasets: [{
-            label: 'Patrick\'s Stats',
-            data: [50, 55, 5, 85, 65],
-            backgroundColor: 'rgba(255, 255, 255, 0.2)',  // Lighter color
-            borderColor: 'rgba(255, 255, 255, 1)',  // White borders
-            borderWidth: 1
-          }]
-        },
-        options: {
-          scales: {
-            r: {
-              beginAtZero: true,
-              grid: {
-                color: 'rgba(255, 255, 255, 0.5)'  // Lighter grid lines
-              },
-              angleLines: {
-                color: 'rgba(255, 255, 255, 0.5)'  // Lighter angle lines
-              },
-              pointLabels: {
-                color: '#fff'  // White text
-              },
-              ticks: {
-                display: false
-              }
-            }
-          },
-          legend: {
-            display: false  // Hides the legend
-          }
-        }
-      });
+    // Your JavaScript here
+    var myRadarChart; // Variable to hold the chart instance
 
+    document.addEventListener('DOMContentLoaded', function() {
+      const ctx = document.getElementById('radarChart').getContext('2d');
+      myRadarChart = new Chart(ctx, {
+        type: 'radar',
+        data: getChartData(false), // Initial call with sober mode data
+        options: getChartOptions()
+      });
+    });
+
+    function getChartData(isDrunk) {
+      return {
+        labels: ['Confidence', 'Bothersome', 'Destruction', 'Gentleness', 'Speech'],
+        datasets: [{
+          label: 'Patrick\'s Stats',
+          data: [50, 55, 5, 85, 65],
+          backgroundColor: isDrunk ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)', // Change based on mode
+          borderColor: isDrunk ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)', // Change based on mode
+          borderWidth: 1
+        }]
+      };
+    }
+
+    function getChartOptions() {
+      return {
+        scales: {
+          r: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(255, 255, 255, 0.5)'
+            },
+            angleLines: {
+              color: 'rgba(255, 255, 255, 0.5)'
+            },
+            pointLabels: {
+              color: '#fff'
+            },
+            ticks: {
+              display: false
+            }
+          }
+        },
+        legend: {
+          display: false
+        }
+      };
+    }
 
     function toggleDrunkMode(isDrunk) {
-      const sound = document.getElementById('drunkModeSound');
       if (isDrunk) {
         document.body.classList.add('drunk-mode');
-        sound.play();
+        myRadarChart.data = getChartData(true); // Update chart to drunk mode colors
+        myRadarChart.update(); // Apply the changes to the chart
       } else {
         document.body.classList.remove('drunk-mode');
-        sound.pause();
-        sound.currentTime = 0;  // Resets the audio to start
+        myRadarChart.data = getChartData(false); // Update chart to sober mode colors
+        myRadarChart.update(); // Apply the changes to the chart
       }
     }
   </script>
-  <audio id="drunkModeSound" src="https://s3.eu-central-1.wasabisys.com/audio.com.audio/transcoding/01/17/1804453119121701-1804453119312280-1804453123722728.mp3"></audio>
 </body>
 </html>
