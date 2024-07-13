@@ -34,8 +34,8 @@ function unlockDrunkMode() {
   const popup = document.getElementById('drunkModePopup');
   popup.classList.add('hidden');
   document.body.classList.remove('overlay');
-  const buttonContainer = document.getElementById('drunkModeButton');
-  buttonContainer.innerHTML = '<button onclick="unlockDrunkMode()">Unlock Drunk Mode</button>';
+  const buttonContainer = document.querySelector('.profile-view .stats button');
+  buttonContainer.style.display = 'block';
 }
 
 function goBack() {
