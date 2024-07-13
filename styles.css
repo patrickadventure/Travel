@@ -33,6 +33,7 @@ header nav ul li a {
   text-decoration: none;
   color: #333;
   font-weight: 200;
+  padding: 10px; /* Increase touch target size */
 }
 
 header nav ul li .dropdown-content {
@@ -58,56 +59,40 @@ header nav ul li .dropdown-content li a:hover {
   background-color: #ddd;
 }
 
-header nav ul li:hover .dropdown-content {
+header nav ul li:hover .dropdown-content,
+header nav ul li:focus-within .dropdown-content {
   display: block;
 }
 
+/* Mobile styles */
 @media (max-width: 600px) {
   header nav ul {
     flex-direction: column;
   }
 
+  header nav ul li {
+    width: 100%;
+  }
+
+  header nav ul li a {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 15px 20px; /* Increase touch target size */
+  }
+
   header nav ul li .dropdown-content {
     position: static;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   header nav ul li .dropdown-content li a {
     padding-left: 20px;
   }
 
-  header nav ul li:hover .dropdown-content {
-    display: none;
-  }
-
   header nav ul li.active .dropdown-content {
     display: block;
-  }
-
-  .profile-view {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .profile-view .buttons {
-    position: static; /* Removes absolute positioning */
-    margin-top: 20px; /* Adds some space above the buttons */
-    display: flex;
-    justify-content: center; /* Centers the buttons horizontally */
-    gap: 10px;
-    flex-direction: row; /* Ensures buttons are in a row */
-  }
-
-  .profile-view .profile-header {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .profile-info {
-    margin-bottom: 20px;
-  }
-
-  .buttons button {
-    margin-bottom: 0; /* Removes the bottom margin */
   }
 }
 
@@ -252,6 +237,19 @@ main {
   .profile-view .buttons {
     flex-direction: row;
     align-items: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .profile-view .buttons {
+    position: static; /* Removes absolute positioning */
+    margin-top: 20px; /* Adds some space above the buttons */
+    justify-content: center; /* Centers the buttons horizontally */
+    flex-direction: row; /* Ensures buttons are in a row */
+  }
+
+  .buttons button {
+    margin-bottom: 0; /* Removes the bottom margin */
   }
 }
 
