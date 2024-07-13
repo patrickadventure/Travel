@@ -5,6 +5,8 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -25,13 +27,62 @@ header nav ul {
 }
 
 header nav ul li {
-  display: inline;
+  position: relative;
 }
 
 header nav ul li a {
   text-decoration: none;
   color: #333;
   font-weight: 200;
+}
+
+header nav ul li .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f8f9fa;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+header nav ul li .dropdown-content li {
+  display: block;
+  padding: 10px;
+}
+
+header nav ul li .dropdown-content li a {
+  color: #333;
+  text-decoration: none;
+  display: block;
+}
+
+header nav ul li .dropdown-content li a:hover {
+  background-color: #ddd;
+}
+
+header nav ul li:hover .dropdown-content {
+  display: block;
+}
+
+@media (max-width: 600px) {
+  header nav ul {
+    flex-direction: column;
+  }
+
+  header nav ul li .dropdown-content {
+    position: static;
+  }
+
+  header nav ul li .dropdown-content li a {
+    padding-left: 20px;
+  }
+
+  header nav ul li:hover .dropdown-content {
+    display: none;
+  }
+
+  header nav ul li.active .dropdown-content {
+    display: block;
+  }
 }
 
 /* Main content styling */
@@ -42,14 +93,91 @@ main {
   text-align: center;
 }
 
-main h1 {
-  font-size: 24px;
+.profile-card {
+  display: inline-block;
+  width: 200px;
+  margin: 10px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.profile-card .image {
   margin-bottom: 10px;
 }
 
-main p {
+.profile-card .name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.profile-card .job {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.profile-card .btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.profile-view {
+  display: none;
+  margin: 40px auto;
+  max-width: 400px;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(to top right, #EEBE6C, #CA7C4E);
+  color: #786450;
+}
+
+.profile-view .image {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 20px;
+}
+
+.profile-view .image img {
+  border-radius: 50%;
+  background: #F5E8DF;
+}
+
+.profile-view .name {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.profile-view .job {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.profile-view .stats {
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile-view .stats .box {
+  width: 30%;
+  padding: 10px;
+  background: #F5E8DF;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.profile-view .stats .value {
   font-size: 18px;
-  margin: 0;
+  font-weight: 600;
+}
+
+.profile-view .stats .parameter {
+  font-size: 12px;
 }
 
 /* Footer styling */
