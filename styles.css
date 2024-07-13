@@ -269,9 +269,8 @@ body, .profile-view {
 .profile-img {
     width: 100px;
     height: 100px;
-    border-radius: 50%; /* Circular image */
-    display: block; /* Centers the image if not flex-aligned */
-    margin: 0 auto 20px; /* Centers horizontally and adds space below */
+    border-radius: 50%;
+    margin-right: 15px; /* Right margin for spacing between image and text */
 }
 
 .skills-container {
@@ -289,9 +288,9 @@ body, .profile-view {
 }
 
 .buttons {
-    margin-top: 20px; /* Ensure spacing between text and buttons */
     display: flex;
-    justify-content: center; /* Center the buttons if that's preferred */
+    flex-direction: column; /* Keeps buttons vertical */
+    align-items: flex-start; /* Aligns buttons to the left */
 }
 
 .drunk-mode .skill-box, .drunk-mode .weakness-box {
@@ -302,4 +301,38 @@ body, .profile-view {
 
 .drunk-mode .bio p, .drunk-mode .bio h3 {
     color: #ccc; /* Adjust text color within the biography section for consistency */
+}
+
+/* Enhanced button styling */
+.buttons button {
+    margin-bottom: 10px; /* Space between buttons */
+    padding: 10px 20px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.buttons button:hover {
+    background-color: #333; /* Darker on hover */
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Adjusts children to space out properly */
+    margin-bottom: 20px;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    flex-grow: 1; /* Allows the profile info to take up the necessary space */
+}
+
+.name-nickname {
+    display: flex;
+    flex-direction: column; /* Stack the name and nickname vertically */
+    text-align: left; /* Aligns the text to the left */
 }
