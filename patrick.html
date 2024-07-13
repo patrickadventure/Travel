@@ -19,18 +19,24 @@
           <h2>Biography</h2>
           <div class="bio">
               <p>This guy's the embodiment of "clumsiness". He has a big heart, loves his wife, loves his family, but...he also loses anything and everything on the planet. You can trust him with anything, but don't trust him with anything materialistic. His skills are primarily in gentleness, and a degree of confidence that gets him by. Unfortunately, he is quite bothersome.</p>
-              <h3>Key skills:</h3>
-              <ul>
-                  <li>Problem solver (solves the problems he creates)</li>
-                  <li>Great drinking buddy</li>
-                  <li>League of Legends</li>
-              </ul>
-              <h3>Key weaknesses:</h3>
-              <ul>
-                  <li>Fear</li>
-                  <li>Keeping any physical item</li>
-                  <li>Remembering anything</li>
-              </ul>
+              <div class="skills-container">
+                  <div class="skill-box">
+                      <h3>Key skills:</h3>
+                      <p>Problem solver (solves the problems he creates)</p>
+                      <p>Great drinking buddy</p>
+                      <p>League of Legends</p>
+                  </div>
+                  <div class="weakness-box">
+                      <h3>Key weaknesses:</h3>
+                      <p>Fear</p>
+                      <p>Keeping any physical item</p>
+                      <p>Remembering anything</p>
+                  </div>
+              </div>
+          </div>
+          <div class="buttons">
+              <button id="drunkModeButton" onclick="toggleDrunkMode(true)">Drunk Mode</button>
+              <button id="soberModeButton" onclick="toggleDrunkMode(false)">Sober Mode</button>
           </div>
       </div>
   </main>
