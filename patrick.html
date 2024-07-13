@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patrick Dhital - Profile</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <main id="main-content">
+    <div class="profile-view">
+      <div class="left">
+        <div class="image"><img src="https://i.imgur.com/wHVzcz7.png" alt="Patrick Dhital"></div>
+        <div class="name">Patrick Dhital</div>
+        <div class="job">Role or Job Title</div>
+        <div class="stats">
+          <canvas id="radarChart"></canvas>
+        </div>
+      </div>
+      <div class="right">
+        <div class="bio">
+          This is a funny bio about Patrick Dhital. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          <div id="drunkModeButton"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="drunkModePopup" class="hidden">
+    <div class="popup-content">
+      <button onclick="unlockDrunkMode()">Unlock Drunk Mode</button>
+    </div>
+  </div>
+
+  <script>
+    loadHeaderFooter();
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const ctx = document.getElementById('radarChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: ['Confidence', 'Bothersome', 'Destruction', 'Gentleness', 'Speech'],
+          datasets: [{
+            label: 'Patrick\'s Stats',
+            data: [50, 55, 5, 85, 65],
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            r: {
+              beginAtZero: true,
+              max: 100
+            }
+          }
+        }
+      });
+
+      setTimeout(showDrunkModePopup, 3000);
+    });
+
+    function showDrunkModePopup() {
+      const popup = document.getElementById('drunkModePopup');
+      popup.classList.remove('hidden');
+      document.body.classList.add('overlay');
+    }
+
+    function unlockDrunkMode() {
+      const popup = document.getElementById('drunkModePopup');
+      popup.classList.add('hidden');
+      document.body.classList.remove('overlay');
+      const buttonContainer = document.getElementById('drunkModeButton');
+      buttonContainer.innerHTML = '<button onclick="unlockDrunkMode()">Unlock Drunk Mode</button>';
+    }
+  </script>
+</body>
+</html>
