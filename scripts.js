@@ -2,10 +2,12 @@ document.addEventListener('DOMContentLoaded', function () {
   loadHeaderFooter();
 
   const dropdown = document.querySelector('.dropdown > a');
-  dropdown.addEventListener('click', function (e) {
-    e.preventDefault();
-    this.parentElement.classList.toggle('active');
-  });
+  if (dropdown) {
+    dropdown.addEventListener('click', function (e) {
+      e.preventDefault();
+      this.parentElement.classList.toggle('active');
+    });
+  }
 });
 
 function loadHeaderFooter() {
@@ -27,10 +29,12 @@ function viewProfile(name) {
     patrick: {
       name: 'Patrick Dhital',
       job: 'Role or Job Title',
-      image: 'https://via.placeholder.com/70',
-      posts: 523,
-      likes: 1387,
-      followers: 146
+      image: 'https://i.imgur.com/wHVzcz7.png',
+      bio: 'This is a funny bio about Patrick Dhital. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      stats: {
+        labels: ['Confidence', 'Bothersome', 'Destruction', 'Gentleness', 'Speech'],
+        data: [50, 55, 5, 85, 65]
+      }
     }
     // Add more profiles here as needed
   };
@@ -39,24 +43,67 @@ function viewProfile(name) {
   if (profile) {
     document.getElementById('main-content').innerHTML = `
       <div class="profile-view">
-        <div class="image"><img src="${profile.image}" alt="${profile.name}"></div>
-        <div class="name">${profile.name}</div>
-        <div class="job">${profile.job}</div>
-        <div class="stats">
-          <div class="box">
-            <span class="value">${profile.posts}</span>
-            <span class="parameter">Posts</span>
-          </div>
-          <div class="box">
-            <span class="value">${profile.likes}</span>
-            <span class="parameter">Likes</span>
-          </div>
-          <div class="box">
-            <span class="value">${profile.followers}</span>
-            <span class="parameter">Followers</span>
+        <div class="left">
+          <div class="image"><img src="${profile.image}" alt="${profile.name}"></div>
+          <div class="name">${profile.name}</div>
+          <div class="job">${profile.job}</div>
+          <div class="stats">
+            <canvas id="radarChart"></canvas>
           </div>
         </div>
-        <button class="btn" onclick="goBack()">Go Back</button>
+        <div class="right">
+          <div class="bio">${profile.bio}</div>
+        </div>
+      </div>
+    `;
+
+    const ctx = document.getElementById('radarChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'radar',
+      data: {
+        labels: profile.stats.labels,
+        datasets: [{
+          label: `${profile.name}'s Stats`,
+          data: profile.stats.data,
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          r: {
+            beginAtZero: true,
+            max: 100
+          }
+        }
+      }
+    });
+
+    setTimeout(showDrunkModePopup, 3000);
+  }
+}
+
+function showDrunkModePopup() {
+  const popup = document.createElement('div');
+  popup.id = 'drunkModePopup';
+  popup.innerHTML = `
+    <p>Click the button to unlock Drunk Mode!</p>
+    <button onclick="unlockDrunkMode()">Unlock Drunk Mode</button>
+  `;
+  document.body.appendChild(popup);
+}
+
+function unlockDrunkMode() {
+  const popup = document.getElementById('drunkModePopup');
+  if (popup) {
+    popup.remove();
+  }
+  const bio = document.querySelector('.profile-view .bio');
+  if (bio) {
+    bio.innerHTML += `
+      <div>
+        <button onclick="unlockDrunkMode()">Unlock Drunk Mode</button>
       </div>
     `;
   }
