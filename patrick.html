@@ -13,12 +13,12 @@
     <div class="profile-view">
       <div class="stats">
         <canvas id="radarChart"></canvas>
+        <button id="drunkModeButton" class="hidden" onclick="showDrunkModePopup()">Unlock Drunk Mode</button>
       </div>
       <div class="right">
         <h2>Biography</h2>
         <div class="bio">
           This is a funny bio about Patrick Dhital. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          <div id="drunkModeButton"></div>
         </div>
       </div>
     </div>
@@ -28,6 +28,7 @@
     <button onclick="unlockDrunkMode()">Unlock Drunk Mode</button>
   </div>
 
+  <script src="scripts.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const ctx = document.getElementById('radarChart').getContext('2d');
@@ -64,13 +65,15 @@
         }
       });
 
-      setTimeout(showDrunkModePopup, 3000);
+      setTimeout(function () {
+        const button = document.getElementById('drunkModeButton');
+        button.classList.remove('hidden');
+      }, 3000);
     });
 
     function showDrunkModePopup() {
       const popup = document.getElementById('drunkModePopup');
       popup.classList.remove('hidden');
-      popup.style.display = 'flex';
       document.body.classList.add('overlay');
     }
 
@@ -78,8 +81,19 @@
       const popup = document.getElementById('drunkModePopup');
       popup.classList.add('hidden');
       document.body.classList.remove('overlay');
-      const buttonContainer = document.getElementById('drunkModeButton');
-      buttonContainer.innerHTML = '<button onclick="unlockDrunkMode()">Unlock Drunk Mode</button>';
+      
+      const button = document.getElementById('drunkModeButton');
+      button.style.backgroundColor = '#000';
+      button.style.color = '#fff';
+      button.style.fontFamily = 'Poppins, sans-serif';
+      button.textContent = 'Unlock Drunk Mode';
+
+      const stats = document.querySelector('.profile-view .stats');
+      const buttonContainer = stats.querySelector('button');
+      buttonContainer.style.position = 'absolute';
+      buttonContainer.style.top = '10px';
+      buttonContainer.style.right = '10px';
+      buttonContainer.style.display = 'block';
     }
   </script>
 </body>
