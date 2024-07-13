@@ -40,6 +40,19 @@
       });
     });
 
+    function getChartData(isDrunk) {
+      return {
+        labels: ['Confidence', 'Bothersome', 'Destruction', 'Gentleness', 'Speech'],
+        datasets: [{
+          label: 'Patrick\'s Stats',
+          data: [50, 55, 5, 85, 65],
+          backgroundColor: isDrunk ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)', // Change based on mode
+          borderColor: isDrunk ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)', // Change based on mode
+          borderWidth: 1
+        }]
+      };
+    }
+
     function getChartOptions(isDrunk) {
       return {
         scales: {
@@ -61,31 +74,6 @@
         },
         legend: {
           display: false  // Hides the legend
-        }
-      };
-    }  
-
-    function getChartOptions() {
-      return {
-        scales: {
-          r: {
-            beginAtZero: true,
-            grid: {
-              color: 'rgba(255, 255, 255, 0.5)'
-            },
-            angleLines: {
-              color: 'rgba(255, 255, 255, 0.5)'
-            },
-            pointLabels: {
-              color: '#fff'
-            },
-            ticks: {
-              display: false
-            }
-          }
-        },
-        legend: {
-          display: false
         }
       };
     }
