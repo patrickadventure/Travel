@@ -134,7 +134,7 @@ main {
   box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.3);
   background: #fff;
   color: #000;
-  position: relative;
+  position: relative; /* Ensure this is relative to position children absolutely */
 }
 
 .profile-view .left {
@@ -182,8 +182,8 @@ main {
 
 .profile-view .buttons {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 0;
+  right: 0;
   display: flex;
   gap: 10px;
 }
@@ -195,6 +195,12 @@ main {
   background-color: #000;
   color: #fff;
   border: none;
+  border-radius: 3px; /* Rounded corners for aesthetic */
+}
+
+/* Hover effect for buttons */
+.profile-view .buttons button:hover {
+  background-color: #333;
 }
 
 @media (min-width: 600px) {
