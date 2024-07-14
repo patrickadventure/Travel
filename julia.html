@@ -126,7 +126,7 @@
     
         if (isDrunk) {
             body.classList.add('drunk-mode');
-            profileImage.src = 'https://i.imgur.com/t988DDb.png';
+            profileImage.src = 'https://i.imgur.com/YXGyr53.png';
             myRadarChart.options = getChartOptions(true);
             myRadarChart.data = getChartData(true, true);
             myRadarChart.update();
@@ -156,7 +156,7 @@
             backgroundMusic.play().catch(e => console.error('Error playing sound:', e));
         } else {
             body.classList.remove('drunk-mode');
-            profileImage.src = 'https://i.imgur.com/tj3NJMx.png';
+            profileImage.src = 'https://i.imgur.com/YXGyr53.png';
             myRadarChart.options = getChartOptions(false);
             myRadarChart.data = getChartData(false, false);
             myRadarChart.update();
