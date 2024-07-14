@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>David The Athlete - Profile</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <style>
+    .drunk-mode .profile-view {
+      background-color: #8736ba; /* Dark purple background */
+      color: #fff; /* White text for better contrast against dark background */
+    }
+  
+    .drunk-mode .skill-box, .drunk-mode .weakness-box {
+      background-color: #e9cdfa; /* Lighter shade of purple for boxes */
+      color: black; /* Ensure text is visible */
+      border: 1px solid #8736ba; /* Slightly darker border for definition */
+    }
+  
+    .drunk-mode .bio p, .drunk-mode .bio h3 {
+      color: white; /* White text for drunk mode */
+    }
+
+    .drunk-mode .profile-header .profile-info .name-nickname h3,
+    .drunk-mode .profile-header .profile-info .name-nickname p {
+      color: white; /* White text for the name and nickname in Drunk Mode */
+    }
+
+    .profile-view {
+      position: relative; /* Ensure the particle effect container is relative to this element */
+    }
+
+    #particles-js {
+      position: absolute; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%; 
+      z-index: 0;
+    }
+    
+    .buttons {
+      z-index: 1; /* Ensure buttons are above the particles */
+      position: relative; /* Ensure the buttons are positioned above the particle effects */
+    }
+  </style>
+</head>
+<body>
+  <main id="main-content">
+    <div class="profile-view">
+      <div id="particles-js"></div>
+      <div class="stats">
+        <canvas id="radarChart"></canvas>
+      </div>
+      <div class="right">
+          <div class="profile-header">
+              <div class="profile-info">
+                  <img src="https://i.imgur.com/wOpMTmh.png" alt="David" class="profile-img" id="profileImage">
+                  <div class="name-nickname">
+                      <h3>David Nguyen</h3>
+                      <p><i>"The Athlete"</i></p>
+                  </div>
+              </div>
+              <div class="buttons">
+                  <button id="drunkModeButton" onclick="toggleDrunkMode(true)">Drunk Mode</button>
+                  <button id="soberModeButton" onclick="toggleDrunkMode(false)">Sober Mode</button>
+              </div>
+          </div>
+          <div class="bio" id="bioContent">
+              <p>When David walks in the room, people expect a brute - but they get a gentle giant, with a very approachable demeanour. David is the epitome of "laid back" - he doesn't really care too much about anything. Sometimes, this can be a detriment when we need a decision made, and instead we're hit with the "I'm easy". Apart from his demeanour, his physical skills are unmatched - strong and powerful. This is what led to the (self) nickname <i>The Athlete</i>. Did I say he's a R'n'b enthusiast? Heh...More on that later....</p>
+              <div class="skills-container">
+                  <div class="skill-box">
+                      <h3>Key Strengths</h3>
+                      <div id="keySkills">
+                          <p>Laid Back</p>
+                          <p>Powerful Eating</p>
+                          <p>"The Athlete"</p>
+                      </div>
+                  </div>
+                  <div class="weakness-box">
+                      <h3>Key Weaknesses</h3>
+                      <div id="keyWeaknesses">
+                          <p>Occasionally Lackadaisical</p>
+                          <p>Orders Too Much Food</p>
+                          <p>Bowel Movements</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </main>
+  <audio id="backgroundMusic" src="audio/jennifer-background.mp3"></audio>
+  <script>
+    var myRadarChart;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const ctx = document.getElementById('radarChart').getContext('2d');
+      myRadarChart = new Chart(ctx, {
+        type: 'radar',
+        data: getChartData(false),
+        options: getChartOptions(false)
+      });
+    });
+
+    function getChartData(isDrunk, modifyData) {
+        return {
+            labels: ['Sociability', 'Bothersome', 'Destruction', 'Gentleness', 'Speech'],
+            datasets: [{
+                label: 'David\'s Stats',
+                data: modifyData ? (isDrunk ? [50, 40, 40, 10, 60] : [100, 70, 100, 50, 10]) : [25, 0, 40, 60, 90],
+                backgroundColor: isDrunk ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.2)',
+                borderColor: isDrunk ? 'rgba(0, 0, 0, 1)' : 'rgba(0, 0, 0, 1)',
+                borderWidth: 1
+            }]
+        };
+    }
+
+    function getChartOptions(isDrunk) {
+        return {
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    grid: {
+                        color: isDrunk ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.1)',
+                    },
+                    angleLines: {
+                        color: isDrunk ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.1)',
+                    },
+                    pointLabels: {
+                        color: isDrunk ? '#000' : '#000',
+                    },
+                    ticks: {
+                        display: false
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        };
+    }
+
+    function toggleDrunkMode(isDrunk) {
+        const body = document.body;
+        const profileImage = document.getElementById('profileImage');
+        const bioContent = document.getElementById('bioContent');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+
+        backgroundMusic.volume = 0.5;
+    
+        if (isDrunk) {
+            body.classList.add('drunk-mode');
+            profileImage.src = 'https://i.imgur.com/wOpMTmh.png';
+            myRadarChart.options = getChartOptions(true);
+            myRadarChart.data = getChartData(true, true);
+            myRadarChart.update();
+            initParticles(); // Initialize particles
+
+            bioContent.innerHTML = `
+                <p>Were you expecting something different? Well...sorry, but it's largely just the same person. David generally uses this opportunity to take care of other people...but, there have been times when "taking care" has led to his own demise. Also - if you play any sort of R'n'b at all, keep in mind that some a large amount of V-pop energy immediately comes out. Surprisingly, "The Athlete" has a wonderful voice.</p>
+                <div class="skills-container">
+                    <div class="skill-box">
+                        <h3>Key Strengths</h3>
+                        <div id="keySkills">
+                            <p>Unlimited Drinking Strength</p>
+                            <p>Takes Care Of Everyone</p>
+                            <p><strong>"The Athlete"</strong></p>
+                        </div>
+                    </div>
+                    <div class="weakness-box">
+                        <h3>Key Weaknesses</h3>
+                        <div id="keyWeaknesses">
+                            <p>Way Too Chill (No Hype)</p>
+                            <p>Uncontrollable Singing</p>
+                            <p>Wants To Start Fights With Boomer Ahjussis</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+    
+            backgroundMusic.play().catch(e => console.error('Error playing sound:', e));
+        } else {
+            body.classList.remove('drunk-mode');
+            profileImage.src = 'https://i.imgur.com/iOmMXBY.png';
+            myRadarChart.options = getChartOptions(false);
+            myRadarChart.data = getChartData(false, false);
+            myRadarChart.update();
+            if (window.pJSDom && window.pJSDom.length) {
+                window.pJSDom[0].pJS.fn.vendors.destroypJS(); // Destroy particles
+                window.pJSDom = [];
+            }
+
+            bioContent.innerHTML = `
+                <p>When David walks in the room, people expect a brute - but they get a gentle giant, with a very approachable demeanour. David is the epitome of "laid back" - he doesn't really care too much about anything. Sometimes, this can be a detriment when we need a decision made, and instead we're hit with the "I'm easy". Apart from his demeanour, his physical skills are unmatched - strong and powerful. This is what led to the (self) nickname <i>The Athlete</i>. Did I say he's a R'n'b enthusiast? Heh...More on that later....</p>
+                <div class="skills-container">
+                    <div class="skill-box">
+                        <h3>Key Strengths</h3>
+                        <div id="keySkills">
+                            <p>Laid Back</p>
+                            <p>Powerful Eating</p>
+                            <p>"The Athlete"</p>
+                        </div>
+                    </div>
+                    <div class="weakness-box">
+                        <h3>Key Weaknesses</h3>
+                        <div id="keyWeaknesses">
+                            <p>Occasionally Lackadaisical</p>
+                            <p>Orders Too Much Food</p>
+                            <p>Bowel Movements</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+    
+            backgroundMusic.pause();
+            backgroundMusic.currentTime = 0;
+        }
+    }
+
+    function initParticles() {
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 50,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"  // White color
+                },
+                "shape": {
+                    "type": "image",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "image": {
+                        "src": "https://cdn-icons-png.flaticon.com/128/1041/1041168.png",
+                        "width": 100,
+                        "height": 100
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 10,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": false // Disable lines
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 6,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "repulse"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 400,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+    }
+  </script>
+  <script src="scripts.js"></script>
+</body>
+</html>
