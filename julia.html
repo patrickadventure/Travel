@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Julia Ri Dhital - Profile</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+  .drunk-mode .profile-view {
+    background-color: #fcc434; /* Dark yellow background */
+    color: #000; /* Dark text for better contrast against light background */
+  }
+
+  .drunk-mode .skill-box, .drunk-mode .weakness-box {
+    background-color: #fdda77; /* Lighter shade of yellow for the boxes */
+    color: #000; /* Ensure text is visible */
+    border: 1px solid #e6c300; /* Slightly darker border for definition */
+  }
+</style>
+</head>
+<body>
+  <main id="main-content">
+    <div class="profile-view">
+      <div class="stats">
+        <canvas id="radarChart"></canvas>
+      </div>
+      <div class="right">
+          <div class="profile-header">
+              <div class="profile-info">
+                  <img src="https://i.imgur.com/YXGyr53.png" alt="Julia Ri" class="profile-img" id="profileImage">
+                  <div class="name-nickname">
+                      <h3>Julia Ri</h3>
+                      <p>Malatang Enthusiast</p>
+                  </div>
+              </div>
+              <div class="buttons">
+                  <button id="drunkModeButton" onclick="toggleDrunkMode(true)">Drunk Mode</button>
+                  <button id="soberModeButton" onclick="toggleDrunkMode(false)">Sober Mode</button>
+              </div>
+          </div>
+          <div class="bio" id="bioContent">
+              <p>Julia is an independent, charismatic and comedy superstar. There are a couple of things you should know - she is <strong>extremely</strong> efficient, very smart, and very independent. This comes with both its positives and negatives...If you want to make last minute plans, see ya later - won't work. If you ask her a question that you should know the answer to - beware of wrath. At the same time, she will organize and plan everything meticulously, and is extremely proficient and working out solutions.</p>
+              <div class="skills-container">
+                  <div class="skill-box">
+                      <h3>Key Strengths</h3>
+                      <div id="keySkills">
+                          <p>Independent</p>
+                          <p>Extremely Smart</p>
+                          <p>Very Efficient</p>
+                      </div>
+                  </div>
+                  <div class="weakness-box">
+                      <h3>Key Weaknesses</h3>
+                      <div id="keyWeaknesses">
+                          <p>Frustrated Easily</p>
+                          <p>No Hunger Control</p>
+                          <p>Mathematics</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </main>
+  <audio id="drunkModeSound" src="audio/my-audio-file.mp3"></audio>
+  <audio id="backgroundMusic" src="audio/julia-background.mp3"></audio>
+  <script>
+    var myRadarChart;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const ctx = document.getElementById('radarChart').getContext('2d');
+      myRadarChart = new Chart(ctx, {
+        type: 'radar',
+        data: getChartData(false),
+        options: getChartOptions(false)
+      });
+    });
+
+    function getChartData(isDrunk, modifyData) {
+        return {
+            labels: ['Sociability', 'Bothersome', 'Destruction', 'Gentleness', 'Speech'],
+            datasets: [{
+                label: 'Julia\'s Stats',
+                data: modifyData ? (isDrunk ? [45, 35, 85, 10, 10] : [25, 0, 40, 60, 90]) : [25, 0, 40, 60, 90],
+                backgroundColor: isDrunk ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)',
+                borderColor: isDrunk ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)',
+                borderWidth: 1
+            }]
+        };
+    }
+
+    function getChartOptions(isDrunk) {
+        return {
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    grid: {
+                        color: isDrunk ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.1)',
+                    },
+                    angleLines: {
+                        color: isDrunk ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.1)',
+                    },
+                    pointLabels: {
+                        color: isDrunk ? '#fff' : '#000',
+                    },
+                    ticks: {
+                        display: false
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        };
+    }
+
+    function toggleDrunkMode(isDrunk) {
+        const body = document.body;
+        const profileImage = document.getElementById('profileImage');
+        const bioContent = document.getElementById('bioContent');
+        const sound = document.getElementById('drunkModeSound');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+
+        backgroundMusic.volume = 0.5;
+    
+        if (isDrunk) {
+            body.classList.add('drunk-mode');
+            profileImage.src = 'https://i.imgur.com/t988DDb.png';
+            myRadarChart.options = getChartOptions(true);
+            myRadarChart.data = getChartData(true, true);
+            myRadarChart.update();
+
+            bioContent.innerHTML = `
+                <p>When Julia is drunk, she becomes more sociable...but this comes at a cost. The social battery runs out quickly! Make sure you get in quick, and talk to her while you can - because sooner or later, she will be on her way home. Forget any athletic ability during this period - where she shines is her singing and dancing abilities. She will sing and dance the night away, and enjoy it - but don't ask questions, or beware of the <strong>wrath</strong> that can follow</p>
+                <div class="skills-container">
+                    <div class="skill-box">
+                        <h3>Key Strengths</h3>
+                        <div id="keySkills">
+                            <p>Dancing Nonstop</p>
+                            <p>Great Singing Ability</p>
+                            <p>Controlled Fun</p>
+                        </div>
+                    </div>
+                    <div class="weakness-box">
+                        <h3>Key Weaknesses</h3>
+                        <div id="keyWeaknesses">
+                            <p>Low Endurance</p>
+                            <p>Hand Eye Coordination</p>
+                            <p>Blackout</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+    
+            backgroundMusic.play().catch(e => console.error('Error playing sound:', e));
+            sound.play().catch(e => console.error('Error playing sound:', e));
+        } else {
+            body.classList.remove('drunk-mode');
+            profileImage.src = 'https://i.imgur.com/wHVzcz7.png';
+            myRadarChart.options = getChartOptions(false);
+            myRadarChart.data = getChartData(false, false);
+            myRadarChart.update();
+
+            bioContent.innerHTML = `
+                <p>This guy's the embodiment of "clumsiness". He has a big heart, loves his wife, loves his family, but...he also loses anything and everything on the planet. You can trust him with anything, but don't trust him with anything materialistic. His skills are primarily in gentleness, and a degree of confidence that gets him by. Unfortunately, he is quite bothersome.</p>
+                <div class="skills-container">
+                    <div class="skill-box">
+                        <h3>Key Strengths</h3>
+                        <div id="keySkills">
+                            <p>Independent</p>
+                            <p>Extremely Smart</p>
+                            <p>Very Efficient</p>
+                        </div>
+                    </div>
+                    <div class="weakness-box">
+                        <h3>Key Weaknesses</h3>
+                        <div id="keyWeaknesses">
+                            <p>Frustrated Easily</p>
+                            <p>No Hunger Control</p>
+                            <p>Mathematics</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+    
+            backgroundMusic.pause();
+            backgroundMusic.currentTime = 0;
+            sound.pause();
+            sound.currentTime = 0;
+        }
+    }
+  </script>
+  <script src="scripts.js"></script>
+</body>
+</html>
