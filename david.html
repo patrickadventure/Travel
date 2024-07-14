@@ -111,8 +111,8 @@
             datasets: [{
                 label: 'David\'s Stats',
                 data: modifyData ? (isDrunk ? [50, 40, 40, 10, 60] : [100, 70, 100, 50, 10]) : [25, 0, 40, 60, 90],
-                backgroundColor: isDrunk ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.2)',
-                borderColor: isDrunk ? 'rgba(0, 0, 0, 1)' : 'rgba(0, 0, 0, 1)',
+                backgroundColor: isDrunk ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.2)',
+                borderColor: isDrunk ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)',
                 borderWidth: 1
             }]
         };
@@ -187,7 +187,7 @@
             backgroundMusic.play().catch(e => console.error('Error playing sound:', e));
         } else {
             body.classList.remove('drunk-mode');
-            profileImage.src = 'https://i.imgur.com/iOmMXBY.png';
+            profileImage.src = 'https://i.imgur.com/wOpMTmh.png';
             myRadarChart.options = getChartOptions(false);
             myRadarChart.data = getChartData(false, false);
             myRadarChart.update();
