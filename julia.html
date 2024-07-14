@@ -8,17 +8,21 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-  .drunk-mode .profile-view {
-    background-color: #fcc434; /* Dark yellow background */
-    color: #000; /* Dark text for better contrast against light background */
-  }
+    .drunk-mode .profile-view {
+      background-color: #fcc434; /* Dark yellow background */
+      color: #000; /* Dark text for better contrast against light background */
+    }
 
-  .drunk-mode .skill-box, .drunk-mode .weakness-box {
-    background-color: #fdda77; /* Lighter shade of yellow for the boxes */
-    color: #000; /* Ensure text is visible */
-    border: 1px solid #e6c300; /* Slightly darker border for definition */
-  }
-</style>
+    .drunk-mode .skill-box, .drunk-mode .weakness-box {
+      background-color: #fdda77; /* Lighter shade of yellow for the boxes */
+      color: #000; /* Ensure text is visible */
+      border: 1px solid #e6c300; /* Slightly darker border for definition */
+    }
+
+    .drunk-mode .bio p, .drunk-mode .bio h3 {
+      color: #fff; /* White text for drunk mode */
+    }
+  </style>
 </head>
 <body>
   <main id="main-content">
@@ -126,7 +130,7 @@
     
         if (isDrunk) {
             body.classList.add('drunk-mode');
-            profileImage.src = 'https://i.imgur.com/YXGyr53.png';
+            profileImage.src = 'https://i.imgur.com/tj3NJMx.png';
             myRadarChart.options = getChartOptions(true);
             myRadarChart.data = getChartData(true, true);
             myRadarChart.update();
