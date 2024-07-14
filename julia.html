@@ -13,11 +13,6 @@
       background-color: #fcc434; /* Dark yellow background */
       color: #000; /* Dark text for better contrast against light background */
     }
-
-    .drunk-mode .profile-header .profile-info .name-nickname h3,
-    .drunk-mode .profile-header .profile-info .name-nickname p {
-      color: #fff; /* White text for the name and nickname in Drunk Mode */
-    }
   
     .drunk-mode .skill-box, .drunk-mode .weakness-box {
       background-color: #fdda77; /* Lighter shade of yellow for the boxes */
@@ -27,6 +22,11 @@
   
     .drunk-mode .bio p, .drunk-mode .bio h3 {
       color: #fff; /* White text for drunk mode */
+    }
+
+    .drunk-mode .profile-header .profile-info .name-nickname h3,
+    .drunk-mode .profile-header .profile-info .name-nickname p {
+      color: #fff; /* White text for the name and nickname in Drunk Mode */
     }
 
     .profile-view {
@@ -231,13 +231,15 @@
                     "value": "#ffffff"  // White color
                 },
                 "shape": {
-                    "type": "circle",
+                    "type": "image",
                     "stroke": {
                         "width": 0,
                         "color": "#000000"
                     },
-                    "polygon": {
-                        "nb_sides": 5
+                    "image": {
+                        "src": "https://i.imgur.com/OwhRddC.png",
+                        "width": 100,
+                        "height": 100
                     }
                 },
                 "opacity": {
@@ -251,7 +253,7 @@
                     }
                 },
                 "size": {
-                    "value": 3,
+                    "value": 10,
                     "random": true,
                     "anim": {
                         "enable": false,
@@ -261,11 +263,7 @@
                     }
                 },
                 "line_linked": {
-                    "enable": true,
-                    "distance": 150,
-                    "color": "#ffffff",
-                    "opacity": 0.4,
-                    "width": 1
+                    "enable": false // Disable lines
                 },
                 "move": {
                     "enable": true,
