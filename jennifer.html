@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zoya Zauce - Profile</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <style>
+    .drunk-mode .profile-view {
+      background-color: #f9e0f0; /* Dark yellow background */
+      color: #000; /* Dark text for better contrast against light background */
+    }
+  
+    .drunk-mode .skill-box, .drunk-mode .weakness-box {
+      background-color: #F9EEF4; /* Lighter shade of pink for boxes */
+      color: black; /* Ensure text is visible */
+      border: 1px solid #fb95cd; /* Slightly darker border for definition */
+    }
+  
+    .drunk-mode .bio p, .drunk-mode .bio h3 {
+      color: black; /* White text for drunk mode */
+    }
+
+    .drunk-mode .profile-header .profile-info .name-nickname h3,
+    .drunk-mode .profile-header .profile-info .name-nickname p {
+      color: black; /* White text for the name and nickname in Drunk Mode */
+    }
+
+    .profile-view {
+      position: relative; /* Ensure the particle effect container is relative to this element */
+    }
+
+    #particles-js {
+      position: absolute; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%; 
+      z-index: 0;
+    }
+  </style>
+</head>
+<body>
+  <main id="main-content">
+    <div class="profile-view">
+      <div id="particles-js"></div>
+      <div class="stats">
+        <canvas id="radarChart"></canvas>
+      </div>
+      <div class="right">
+          <div class="profile-header">
+              <div class="profile-info">
+                  <img src="https://i.imgur.com/YXGyr53.png" alt="Julia Ri" class="profile-img" id="profileImage">
+                  <div class="name-nickname">
+                      <h3>Zoya Ri</h3>
+                      <p>Pink Platoon Leader</p>
+                  </div>
+              </div>
+              <div class="buttons">
+                  <button id="drunkModeButton" onclick="toggleDrunkMode(true)">Drunk Mode</button>
+                  <button id="soberModeButton" onclick="toggleDrunkMode(false)">Sober Mode</button>
+              </div>
+          </div>
+          <div class="bio" id="bioContent">
+              <p>Jennifer, also known in the ranks as Zoya, is a hardened South Korean soldier. Don't let her pink outfits deceive you, underneath is a fierce and wild cat that will claw at your eyes, if given the opportunity. A natural born leader, she always finds a solution to any issue. The "Ri" soul flows through her, meaning that efficiency and work ethic is an absolute requirement. She is also methodical, <i>unless</i>....</p>
+              <div class="skills-container">
+                  <div class="skill-box">
+                      <h3>Key Strengths</h3>
+                      <div id="keySkills">
+                          <p>Natural Born Leader</p>
+                          <p>Methodical</p>
+                          <p>Social Hacker</p>
+                      </div>
+                  </div>
+                  <div class="weakness-box">
+                      <h3>Key Weaknesses</h3>
+                      <div id="keyWeaknesses">
+                          <p>Sensitive To Temperature</p>
+                          <p>Weak Ankles</p>
+                          <p>Mood Swings</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </main>
+  <audio id="backgroundMusic" src="audio/julia-background.mp3"></audio>
+  <script>
+    var myRadarChart;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const ctx = document.getElementById('radarChart').getContext('2d');
+      myRadarChart = new Chart(ctx, {
+        type: 'radar',
+        data: getChartData(false),
+        options: getChartOptions(false)
+      });
+    });
+
+    function getChartData(isDrunk, modifyData) {
+        return {
+            labels: ['Sociability', 'Bothersome', 'Destruction', 'Gentleness', 'Speech'],
+            datasets: [{
+                label: 'Julia\'s Stats',
+                data: modifyData ? (isDrunk ? [45, 35, 85, 10, 10] : [25, 0, 40, 60, 90]) : [25, 0, 40, 60, 90],
+                backgroundColor: isDrunk ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)',
+                borderColor: isDrunk ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)',
+                borderWidth: 1
+            }]
+        };
+    }
+
+    function getChartOptions(isDrunk) {
+        return {
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    grid: {
+                        color: isDrunk ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.1)',
+                    },
+                    angleLines: {
+                        color: isDrunk ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.1)',
+                    },
+                    pointLabels: {
+                        color: isDrunk ? '#fff' : '#000',
+                    },
+                    ticks: {
+                        display: false
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        };
+    }
+
+    function toggleDrunkMode(isDrunk) {
+        const body = document.body;
+        const profileImage = document.getElementById('profileImage');
+        const bioContent = document.getElementById('bioContent');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+
+        backgroundMusic.volume = 0.5;
+    
+        if (isDrunk) {
+            body.classList.add('drunk-mode');
+            profileImage.src = 'https://i.imgur.com/tj3NJMx.png';
+            myRadarChart.options = getChartOptions(true);
+            myRadarChart.data = getChartData(true, true);
+            myRadarChart.update();
+            initParticles(); // Initialize particles
+
+            bioContent.innerHTML = `
+                <p>Hey...did you give that girl a drink? Well...you've either made a great decision, or you've made the wrong choice - because it's about to get wild...this is where the true "Zoya" comes out. Any identity you want - she can be it. A German soldier? Done. A red-state Trump supporter? Done. A <strong>Japanese person???</strong>. Especially Done. A true chameleon that can adjust to any situation. Be careful though, appearances aren't all they seem...too much, and her true <strong>wrath</strong> comes out.</p>
+                <div class="skills-container">
+                    <div class="skill-box">
+                        <h3>Key Strengths</h3>
+                        <div id="keySkills">
+                            <p>Extreme Sociability</p>
+                            <p>High Social Battery</p>
+                            <p>Very Fun Spirited</p>
+                        </div>
+                    </div>
+                    <div class="weakness-box">
+                        <h3>Key Weaknesses</h3>
+                        <div id="keyWeaknesses">
+                            <p>Bad Decision Making</p>
+                            <p><strong>Very</strong> Weak Ankles</p>
+                            <p>Athletic Ability Plummets</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+    
+            backgroundMusic.play().catch(e => console.error('Error playing sound:', e));
+        } else {
+            body.classList.remove('drunk-mode');
+            profileImage.src = 'https://i.imgur.com/YXGyr53.png';
+            myRadarChart.options = getChartOptions(false);
+            myRadarChart.data = getChartData(false, false);
+            myRadarChart.update();
+            if (window.pJSDom && window.pJSDom.length) {
+                window.pJSDom[0].pJS.fn.vendors.destroypJS(); // Destroy particles
+                window.pJSDom = [];
+            }
+
+            bioContent.innerHTML = `
+                <p>ennifer, also known in the ranks as Zoya, is a hardened South Korean soldier. Don't let her pink outfits deceive you, underneath is a fierce and wild cat that will claw at your eyes, if given the opportunity. A natural born leader, she always finds a solution to any issue. The "Ri" soul flows through her, meaning that efficiency and work ethic is an absolute requirement. She is also methodical, <i>unless</i>....</p>
+                <div class="skills-container">
+                    <div class="skill-box">
+                        <h3>Key Strengths</h3>
+                        <div id="keySkills">
+                            <p>Natural Born Leader</p>
+                            <p>Methodical</p>
+                            <p>Social Hacker</p>
+                        </div>
+                    </div>
+                    <div class="weakness-box">
+                        <h3>Key Weaknesses</h3>
+                        <div id="keyWeaknesses">
+                            <p>Sensitive To Temperature</p>
+                            <p>Weak Ankles</p>
+                            <p>Mood Swings</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+    
+            backgroundMusic.pause();
+            backgroundMusic.currentTime = 0;
+        }
+    }
+
+    function initParticles() {
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 50,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"  // White color
+                },
+                "shape": {
+                    "type": "image",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "image": {
+                        "src": "https://cdn-icons-png.flaticon.com/128/4943/4943289.png",
+                        "width": 100,
+                        "height": 100
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 10,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": false // Disable lines
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 6,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "repulse"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 400,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+    }
+  </script>
+  <script src="scripts.js"></script>
+</body>
+</html>
