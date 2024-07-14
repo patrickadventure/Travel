@@ -13,6 +13,11 @@
       background-color: #fcc434; /* Dark yellow background */
       color: #000; /* Dark text for better contrast against light background */
     }
+
+    .drunk-mode .profile-header .profile-info .name-nickname h3,
+    .drunk-mode .profile-header .profile-info .name-nickname p {
+      color: #fff; /* White text for the name and nickname in Drunk Mode */
+    }
   
     .drunk-mode .skill-box, .drunk-mode .weakness-box {
       background-color: #fdda77; /* Lighter shade of yellow for the boxes */
@@ -23,12 +28,25 @@
     .drunk-mode .bio p, .drunk-mode .bio h3 {
       color: #fff; /* White text for drunk mode */
     }
+
+    .profile-view {
+      position: relative; /* Ensure the particle effect container is relative to this element */
+    }
+
+    #particles-js {
+      position: absolute; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%; 
+      z-index: 0;
+    }
   </style>
 </head>
 <body>
-<div id="particles-js" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;"></div>
   <main id="main-content">
     <div class="profile-view">
+      <div id="particles-js"></div>
       <div class="stats">
         <canvas id="radarChart"></canvas>
       </div>
@@ -210,7 +228,7 @@
                     }
                 },
                 "color": {
-                    "value": "#fcc434"  // Yellow color
+                    "value": "#ffffff"  // White color
                 },
                 "shape": {
                     "type": "circle",
