@@ -63,7 +63,6 @@
           </div>
       </div>
   </main>
-  <audio id="drunkModeSound" src="audio/my-audio-file.mp3"></audio>
   <audio id="backgroundMusic" src="audio/julia-background.mp3"></audio>
   <script>
     var myRadarChart;
@@ -121,7 +120,6 @@
         const body = document.body;
         const profileImage = document.getElementById('profileImage');
         const bioContent = document.getElementById('bioContent');
-        const sound = document.getElementById('drunkModeSound');
         const backgroundMusic = document.getElementById('backgroundMusic');
 
         backgroundMusic.volume = 0.5;
@@ -156,7 +154,6 @@
             `;
     
             backgroundMusic.play().catch(e => console.error('Error playing sound:', e));
-            sound.play().catch(e => console.error('Error playing sound:', e));
         } else {
             body.classList.remove('drunk-mode');
             profileImage.src = 'https://i.imgur.com/wHVzcz7.png';
@@ -188,8 +185,6 @@
     
             backgroundMusic.pause();
             backgroundMusic.currentTime = 0;
-            sound.pause();
-            sound.currentTime = 0;
         }
     }
   </script>
