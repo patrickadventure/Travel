@@ -157,39 +157,44 @@ document.addEventListener('DOMContentLoaded', async () => {
     const updateMatrix = () => {
         const people = ['Julia', 'Tik', 'David', 'Jen'];
         const matrix = {};
-
+    
         // Initialize the matrix
         people.forEach(person => {
             matrix[person] = {};
             people.forEach(otherPerson => {
-                matrix[person][otherPerson] = 0;
+                if (person !== otherPerson) {
+                    matrix[person][otherPerson] = 0; // Only initialize for different people
+                }
             });
         });
-
+    
         // Calculate the balances
         expenses.forEach(expense => {
             const involved = expense.involved.split(', ');
             const splitAmount = parseFloat(expense.amount) / involved.length;
-
-            involved.forEach(person => {
-                if (person !== expense.person) {
-                    matrix[person][expense.person] += splitAmount;
-                    matrix[expense.person][person] -= splitAmount;
+    
+            involved.forEach(involvedPerson => {
+                if (involvedPerson !== expense.person) {
+                    matrix[involvedPerson][expense.person] += splitAmount; // Person owes the payer
+                    matrix[expense.person][involvedPerson] -= splitAmount; // Payer is owed by the person
                 }
             });
         });
-
+    
         // Update the matrix table
         const matrixTable = document.getElementById('matrixTable').getElementsByTagName('tbody')[0];
         matrixTable.innerHTML = '';
         people.forEach(person => {
             const row = document.createElement('tr');
-            row.innerHTML = `<td>${person}</td>`;
+            row.innerHTML = `<td>${person} Owes</td>`; // Adjust to indicate the direction of debt
             people.forEach(otherPerson => {
-                if (matrix[person][otherPerson] === 0) {
-                    row.innerHTML += '<td>-</td>';
-                } else {
-                    row.innerHTML += `<td>$${Math.abs(matrix[person][otherPerson]).toFixed(2)}</td>`;
+                if (person !== otherPerson) {
+                    let balance = matrix[person][otherPerson];
+                    if (balance > 0) {
+                        row.innerHTML += `<td>$${balance.toFixed(2)}</td>`; // Show only amounts that person owes
+                    } else {
+                        row.innerHTML += '<td>-</td>';
+                    }
                 }
             });
             matrixTable.appendChild(row);
