@@ -1,7 +1,4 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
-import { getFirestore, collection, getDocs, addDoc, setDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
-
-// Your web app's Firebase configuration
+// Firebase configuration and initialization
 const firebaseConfig = {
   apiKey: "AIzaSyCZURzxdOwJauWX-CT8BYN1VSQ5a7JJWBk",
   authDomain: "expense-f7fb3.firebaseapp.com",
@@ -11,9 +8,8 @@ const firebaseConfig = {
   appId: "1:240992662446:web:b06e29ebefe8fa1e7f4e3f"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
 document.addEventListener('DOMContentLoaded', async () => {
     const expenseForm = document.getElementById('expenseForm');
@@ -28,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const loadExpenses = async () => {
         try {
-            const querySnapshot = await getDocs(collection(db, 'expenses'));
+            const querySnapshot = await db.collection('expenses').get();
             console.log("Expenses fetched successfully.");
             expenses = [];
             querySnapshot.forEach(doc => {
@@ -55,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const expense = { date, person, involved, location, description, amount };
 
         try {
-            const docRef = await addDoc(collection(db, 'expenses'), expense);
+            const docRef = await db.collection('expenses').add(expense);
             console.log("Expense added successfully.");
             expense.id = docRef.id;
             expenses.push(expense);
@@ -96,7 +92,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     window.removeExpense = async (id) => {
         try {
-            await deleteDoc(doc(db, 'expenses', id));
+            await db.collection('expenses').doc(id).delete();
             expenses = expenses.filter(expense => expense.id !== id);
             renderExpenseTable();
         } catch (error) {
@@ -131,7 +127,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const expense = { date, person, involved, location, description, amount };
 
         try {
-            await setDoc(doc(db, 'expenses', id), expense);
+            await db.collection('expenses').doc(id).set(expense);
             expenses = expenses.map(exp => exp.id === id ? { ...expense, id } : exp);
             renderExpenseTable();
             editModal.style.display = 'none';
