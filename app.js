@@ -1,4 +1,8 @@
-// Firebase configuration and initialization
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+import { getFirestore, collection, getDocs, addDoc, setDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
+
+// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCZURzxdOwJauWX-CT8BYN1VSQ5a7JJWBk",
   authDomain: "expense-f7fb3.firebaseapp.com",
@@ -8,8 +12,9 @@ const firebaseConfig = {
   appId: "1:240992662446:web:b06e29ebefe8fa1e7f4e3f"
 };
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 document.addEventListener('DOMContentLoaded', async () => {
     const expenseForm = document.getElementById('expenseForm');
@@ -24,7 +29,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const loadExpenses = async () => {
         try {
-            const querySnapshot = await db.collection('expenses').get();
+            const querySnapshot = await getDocs(collection(db, 'expenses'));
             console.log("Expenses fetched successfully.");
             expenses = [];
             querySnapshot.forEach(doc => {
@@ -51,7 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const expense = { date, person, involved, location, description, amount };
 
         try {
-            const docRef = await db.collection('expenses').add(expense);
+            const docRef = await addDoc(collection(db, 'expenses'), expense);
             console.log("Expense added successfully.");
             expense.id = docRef.id;
             expenses.push(expense);
@@ -64,13 +69,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     const getSelectedCheckboxes = (name) => {
-        const checkboxes = document.querySelectorAll(`input[id^=${name}]:checked`);
+        const checkboxes = document.querySelectorAll(input[id^=${name}]:checked);
         return Array.from(checkboxes).map(checkbox => checkbox.value).join(', ');
     };
 
     const addExpenseToTable = (expense) => {
         const row = document.createElement('tr');
-        row.innerHTML = `
+        row.innerHTML = 
             <td>${expense.date}</td>
             <td>${expense.person}</td>
             <td>${expense.involved}</td>
@@ -81,7 +86,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <button onclick="editExpense('${expense.id}')">Edit</button>
                 <button class="delete" onclick="removeExpense('${expense.id}')">Delete</button>
             </td>
-        `;
+        ;
         expenseTable.appendChild(row);
     };
 
@@ -92,7 +97,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     window.removeExpense = async (id) => {
         try {
-            await db.collection('expenses').doc(id).delete();
+            await deleteDoc(doc(db, 'expenses', id));
             expenses = expenses.filter(expense => expense.id !== id);
             renderExpenseTable();
         } catch (error) {
@@ -127,7 +132,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const expense = { date, person, involved, location, description, amount };
 
         try {
-            await db.collection('expenses').doc(id).set(expense);
+            await setDoc(doc(db, 'expenses', id), expense);
             expenses = expenses.map(exp => exp.id === id ? { ...expense, id } : exp);
             renderExpenseTable();
             editModal.style.display = 'none';
@@ -179,12 +184,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         matrixTable.innerHTML = '';
         people.forEach(person => {
             const row = document.createElement('tr');
-            row.innerHTML = `<td>${person} Owes</td>`;
+            row.innerHTML = <td>${person}</td>;
             people.forEach(otherPerson => {
-                if (matrix[person][otherPerson] <= 0) {
+                if (matrix[person][otherPerson] === 0) {
                     row.innerHTML += '<td>-</td>';
                 } else {
-                    row.innerHTML += `<td>$${matrix[person][otherPerson].toFixed(2)}</td>`;
+                    row.innerHTML += <td>$${Math.abs(matrix[person][otherPerson]).toFixed(2)}</td>;
                 }
             });
             matrixTable.appendChild(row);
@@ -193,7 +198,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     await loadExpenses();
 
-    window.triggerExplosion = () => {
+    window.triggerExplosion = function() {
         const container = document.querySelector('.container');
         if (!container) return;
 
@@ -286,5 +291,5 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }, 1000);
             }
         }, 1000);
-    };
+    }
 });
