@@ -14,43 +14,12 @@ body {
     background-color: #f9f9f9;
     color: #333;
     display: flex;
-    flex-direction: column; /* Ensure body is a column flexbox */
-    min-height: 100vh; /* Make sure body takes full height */
+    flex-direction: column; /* Changed for flexbox behavior */
+    min-height: 100vh; /* Ensure body takes up full height */
     margin: 0;
-    padding: 0;
 }
 
-/* Header Styling */
-header {
-    width: 100%;
-    background: #f8f9fa;
-    padding: 10px 20px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-header nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    gap: 20px;
-}
-
-header nav ul li {
-    position: relative;
-}
-
-header nav ul li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 200;
-}
-
-/* Main Content Container */
+/* Container Styling */
 .container {
     background: #fff;
     padding: 20px;
@@ -58,10 +27,21 @@ header nav ul li a {
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     width: 90%;
     max-width: 800px;
-    margin: 80px auto 20px auto; /* Margin to push it below the fixed header */
+    margin: 80px auto 60px auto; /* Increased bottom margin */
     position: relative;
     overflow: hidden;
     flex: 1 0 auto; /* Ensure it grows and shrinks properly within the flexbox */
+}
+
+/* Footer Styling */
+footer {
+    width: 100%;
+    background: #f8f9fa;
+    padding: 10px 20px;
+    text-align: center;
+    position: relative; /* Adjusted from fixed to relative */
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    margin-top: auto; /* Ensures it stays at the bottom of the viewport */
 }
 
 /* Heading Styling */
@@ -109,7 +89,7 @@ button:hover {
     border: 1px solid #ddd;
     border-radius: 5px;
     background-color: #f7f7f7;
-    margin-bottom: 10px;
+    margin-bottom: 10px; /* Add spacing between checkbox groups */
 }
 
 .involved-box p {
@@ -141,14 +121,15 @@ button:hover {
 table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 14px;
-    overflow-x: auto; /* Ensure table can be scrolled horizontally */
+    font-size: 14px; /* Smaller font size for the table */
+    overflow-x: auto; /* Allow horizontal scrolling */
 }
 
 th, td {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: left;
+    min-height: 50px; /* Ensures a minimum height for better alignment */
 }
 
 th {
@@ -157,8 +138,9 @@ th {
 
 .actions {
     display: flex;
-    gap: 5px;
-    flex-wrap: wrap; /* Allow wrapping of buttons */
+    flex-wrap: nowrap; /* Prevent wrapping of buttons */
+    overflow-x: auto; /* Allow scrolling within action cells */
+    justify-content: center;
 }
 
 .actions button {
@@ -168,8 +150,7 @@ th {
     cursor: pointer;
     transition: background-color 0.3s;
     padding: 5px 10px;
-    font-size: 14px;
-    flex: 1 1 auto; /* Ensure buttons are responsive */
+    min-width: 70px; /* Ensure buttons have enough space for text */
 }
 
 .actions button:hover {
@@ -242,53 +223,26 @@ th {
     flex: 1;
 }
 
-/* Footer Styling */
-footer {
-    width: 100%;
-    background: #f8f9fa;
-    padding: 10px 20px;
-    text-align: center;
-    position: relative; /* Change position to relative */
-    z-index: 1000;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-    margin-top: auto; /* Ensure it stays at the bottom */
-}
-
-/* Responsive Design */
+/* Ensures that the bottom of the container has enough space above the footer */
 @media (max-width: 600px) {
     .container {
-        width: 100%;
-        padding: 10px;
-        margin-top: 100px; /* Ensure content is pushed below the header */
+        margin-bottom: 60px; /* Add sufficient space to avoid footer overlap */
     }
 
     table {
         display: block;
-        overflow-x: auto;
-        white-space: nowrap;
+        overflow-x: auto; /* Allow horizontal scrolling */
     }
 
-    th, td {
-        padding: 5px;
-    }
-
+    /* Ensure action buttons are visible and accessible */
     .actions {
         display: flex;
-        gap: 2px;
-        flex-wrap: wrap;
+        flex-wrap: nowrap; /* Prevent wrapping of buttons to ensure they stay visible */
+        overflow-x: auto; /* Allow scrolling within action cells */
+        justify-content: center;
     }
 
     .actions button {
-        padding: 5px;
-        font-size: 12px;
-    }
-
-    .involved-box p, .checkbox-group label {
-        font-size: 14px;
-    }
-
-    input, select, button {
-        font-size: 14px;
-        padding: 8px;
+        min-width: 70px; /* Ensure buttons have enough space for text */
     }
 }
