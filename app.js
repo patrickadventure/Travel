@@ -1,4 +1,7 @@
 // Firebase configuration and initialization
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
+import { getFirestore, collection, getDocs, addDoc, setDoc, doc, deleteDoc } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
+
 const firebaseConfig = {
   apiKey: "AIzaSyCZURzxdOwJauWX-CT8BYN1VSQ5a7JJWBk",
   authDomain: "expense-f7fb3.firebaseapp.com",
@@ -8,10 +11,10 @@ const firebaseConfig = {
   appId: "1:240992662446:web:b06e29ebefe8fa1e7f4e3f"
 };
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const expenseForm = document.getElementById('expenseForm');
     const expenseTable = document.getElementById('expenseTable');
     const editModal = document.getElementById('editModal');
@@ -22,21 +25,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const matrixButton = document.getElementById('matrixButton');
     let expenses = [];
 
-    const loadExpenses = () => {
-        db.collection('expenses').get().then(querySnapshot => {
-            console.log("Expenses fetched successfully.");
-            expenses = [];
-            querySnapshot.forEach(doc => {
-                let data = doc.data();
-                data.id = doc.id;
-                expenses.push(data);
-            });
-            renderExpenseTable();
-            updateMatrix();
+    const loadExpenses = async () => {
+        const querySnapshot = await getDocs(collection(db, 'expenses'));
+        console.log("Expenses fetched successfully.");
+        expenses = [];
+        querySnapshot.forEach(doc => {
+            let data = doc.data();
+            data.id = doc.id;
+            expenses.push(data);
         });
+        renderExpenseTable();
+        updateMatrix();
     };
 
-    expenseForm.addEventListener('submit', function(e) {
+    expenseForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         const date = document.getElementById('date').value;
         const person = document.getElementById('person').value;
@@ -47,14 +49,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const expense = { date, person, involved, location, description, amount };
 
-        db.collection('expenses').add(expense).then(docRef => {
+        try {
+            const docRef = await addDoc(collection(db, 'expenses'), expense);
             console.log("Expense added successfully.");
             expense.id = docRef.id;
             expenses.push(expense);
             addExpenseToTable(expense);
-            this.reset();
+            expenseForm.reset();
             triggerExplosion();
-        }).catch(error => console.error("Error adding expense: ", error));
+        } catch (error) {
+            console.error("Error adding expense: ", error);
+        }
     });
 
     const getSelectedCheckboxes = (name) => {
@@ -84,11 +89,14 @@ document.addEventListener('DOMContentLoaded', () => {
         expenses.forEach(expense => addExpenseToTable(expense));
     };
 
-    window.removeExpense = (id) => {
-        db.collection('expenses').doc(id).delete().then(() => {
+    window.removeExpense = async (id) => {
+        try {
+            await deleteDoc(doc(db, 'expenses', id));
             expenses = expenses.filter(expense => expense.id !== id);
             renderExpenseTable();
-        }).catch(error => console.error("Error removing expense: ", error));
+        } catch (error) {
+            console.error("Error removing expense: ", error);
+        }
     };
 
     window.editExpense = (id) => {
@@ -105,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         editModal.style.display = 'block';
     };
 
-    editExpenseForm.addEventListener('submit', function(e) {
+    editExpenseForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         const id = document.getElementById('editIndex').value;
         const date = document.getElementById('editDate').value;
@@ -117,11 +125,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const expense = { date, person, involved, location, description, amount };
 
-        db.collection('expenses').doc(id).set(expense).then(() => {
+        try {
+            await setDoc(doc(db, 'expenses', id), expense);
             expenses = expenses.map(exp => exp.id === id ? { ...expense, id } : exp);
             renderExpenseTable();
             editModal.style.display = 'none';
-        }).catch(error => console.error("Error editing expense: ", error));
+        } catch (error) {
+            console.error("Error editing expense: ", error);
+        }
     });
 
     trackerButton.onclick = () => {
@@ -179,9 +190,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    loadExpenses();
+    await loadExpenses();
 
-    function triggerExplosion() {
+    window.triggerExplosion = function() {
         const container = document.querySelector('.container');
         if (!container) return;
 
