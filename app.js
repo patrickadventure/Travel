@@ -1,3 +1,16 @@
+// Firebase configuration and initialization
+const firebaseConfig = {
+  apiKey: "AIzaSyCZURzxdOwJauWX-CT8BYN1VSQ5a7JJWBk",
+  authDomain: "expense-f7fb3.firebaseapp.com",
+  projectId: "expense-f7fb3",
+  storageBucket: "expense-f7fb3.appspot.com",
+  messagingSenderId: "240992662446",
+  appId: "1:240992662446:web:b06e29ebefe8fa1e7f4e3f"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
 document.addEventListener('DOMContentLoaded', () => {
     const expenseForm = document.getElementById('expenseForm');
     const expenseTable = document.getElementById('expenseTable');
@@ -7,7 +20,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const matrixContainer = document.getElementById('matrixContainer');
     const trackerButton = document.getElementById('trackerButton');
     const matrixButton = document.getElementById('matrixButton');
-    let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
+    let expenses = [];
+
+    const loadExpenses = () => {
+        db.collection('expenses').get().then(querySnapshot => {
+            expenses = [];
+            querySnapshot.forEach(doc => {
+                let data = doc.data();
+                data.id = doc.id;
+                expenses.push(data);
+            });
+            renderExpenseTable();
+            updateMatrix();
+        });
+    };
 
     expenseForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -19,11 +45,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const amount = document.getElementById('amount').value;
 
         const expense = { date, person, involved, location, description, amount };
-        expenses.push(expense);
-        localStorage.setItem('expenses', JSON.stringify(expenses));
-        addExpenseToTable(expense, expenses.length - 1);
-        this.reset();
-        triggerExplosion(); // Trigger the explosion effect
+
+        db.collection('expenses').add(expense).then(docRef => {
+            expense.id = docRef.id;
+            expenses.push(expense);
+            addExpenseToTable(expense);
+            this.reset();
+            triggerExplosion();
+        });
     });
 
     const getSelectedCheckboxes = (name) => {
@@ -31,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return Array.from(checkboxes).map(checkbox => checkbox.value).join(', ');
     };
 
-    const addExpenseToTable = (expense, index) => {
+    const addExpenseToTable = (expense) => {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${expense.date}</td>
@@ -41,27 +70,28 @@ document.addEventListener('DOMContentLoaded', () => {
             <td>${expense.description}</td>
             <td>$${parseFloat(expense.amount).toFixed(2)}</td>
             <td class="actions">
-                <button onclick="editExpense(${index})">Edit</button>
-                <button class="delete" onclick="removeExpense(${index})">Delete</button>
+                <button onclick="editExpense('${expense.id}')">Edit</button>
+                <button class="delete" onclick="removeExpense('${expense.id}')">Delete</button>
             </td>
         `;
         expenseTable.appendChild(row);
     };
 
-    const loadExpenses = () => {
+    const renderExpenseTable = () => {
         expenseTable.innerHTML = '';
-        expenses.forEach((expense, index) => addExpenseToTable(expense, index));
+        expenses.forEach(expense => addExpenseToTable(expense));
     };
 
-    window.removeExpense = (index) => {
-        expenses.splice(index, 1);
-        localStorage.setItem('expenses', JSON.stringify(expenses));
-        loadExpenses();
+    window.removeExpense = (id) => {
+        db.collection('expenses').doc(id).delete().then(() => {
+            expenses = expenses.filter(expense => expense.id !== id);
+            renderExpenseTable();
+        });
     };
 
-    window.editExpense = (index) => {
-        const expense = expenses[index];
-        document.getElementById('editIndex').value = index;
+    window.editExpense = (id) => {
+        const expense = expenses.find(expense => expense.id === id);
+        document.getElementById('editIndex').value = id;
         document.getElementById('editDate').value = expense.date;
         document.getElementById('editPerson').value = expense.person;
         document.querySelectorAll('input[id^=editInvolved]').forEach(checkbox => {
@@ -75,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     editExpenseForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        const index = document.getElementById('editIndex').value;
+        const id = document.getElementById('editIndex').value;
         const date = document.getElementById('editDate').value;
         const person = document.getElementById('editPerson').value;
         const involved = getSelectedCheckboxes('editInvolved');
@@ -83,9 +113,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const description = document.getElementById('editDescription').value;
         const amount = document.getElementById('editAmount').value;
 
-        expenses[index] = { date, person, involved, location, description, amount };
-        localStorage.setItem('expenses', JSON.stringify(expenses));
-        window.location.reload();
+        const expense = { date, person, involved, location, description, amount };
+
+        db.collection('expenses').doc(id).set(expense).then(() => {
+            expenses = expenses.map(exp => exp.id === id ? { ...expense, id } : exp);
+            renderExpenseTable();
+            editModal.style.display = 'none';
+        });
     });
 
     trackerButton.onclick = () => {
@@ -158,4 +192,87 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Create a new particles container
         particlesDiv = document.createElement('div');
-        particlesDiv.id =
+        particlesDiv.id = particlesId;
+        container.appendChild(particlesDiv);
+
+        // Initialize particles
+        particlesJS(particlesId, {
+            particles: {
+                number: {
+                    value: 50,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: "#ffffff"
+                },
+                shape: {
+                    type: "image",
+                    image: {
+                        src: "https://cdn-icons-png.flaticon.com/128/12740/12740855.png",
+                        width: 100,
+                        height: 100
+                    }
+                },
+                opacity: {
+                    value: 0.5,
+                    anim: {
+                        enable: true,
+                        speed: 1.5,
+                        opacity_min: 0
+                    }
+                },
+                size: {
+                    value: 10,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.3
+                    }
+                },
+                line_linked: {
+                    enable: false
+                },
+                move: {
+                    enable: true,
+                    speed: 5,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: {
+                        enable: false
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: false
+                    },
+                    onclick: {
+                        enable: false
+                    }
+                }
+            },
+            retina_detect: true
+        });
+
+        setTimeout(() => {
+            if (particlesDiv) {
+                particlesDiv.style.transition = 'opacity 1s';
+                particlesDiv.style.opacity = '0';
+                setTimeout(() => {
+                    if (particlesDiv) {
+                        particlesDiv.remove();
+                    }
+                }, 1000);
+            }
+        }, 1000);
+    }
+});
