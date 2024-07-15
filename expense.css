@@ -50,7 +50,7 @@ header nav ul li a {
     font-weight: 200;
 }
 
-/* Container Styling */
+/* Main Content Container */
 .container {
     background: #fff;
     padding: 20px;
@@ -61,6 +61,7 @@ header nav ul li a {
     margin: 80px auto 20px auto; /* Margin to push it below the fixed header */
     position: relative;
     overflow: hidden;
+    flex: 1 0 auto; /* Ensure it grows and shrinks properly within the flexbox */
 }
 
 /* Heading Styling */
@@ -247,11 +248,10 @@ footer {
     background: #f8f9fa;
     padding: 10px 20px;
     text-align: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
+    position: relative; /* Change position to relative */
     z-index: 1000;
     box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    margin-top: auto; /* Ensure it stays at the bottom */
 }
 
 /* Responsive Design */
