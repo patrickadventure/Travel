@@ -69,13 +69,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     const getSelectedCheckboxes = (name) => {
-        const checkboxes = document.querySelectorAll(input[id^=${name}]:checked);
+        const checkboxes = document.querySelectorAll(`input[id^=${name}]:checked`);
         return Array.from(checkboxes).map(checkbox => checkbox.value).join(', ');
     };
 
     const addExpenseToTable = (expense) => {
         const row = document.createElement('tr');
-        row.innerHTML = 
+        row.innerHTML = `
             <td>${expense.date}</td>
             <td>${expense.person}</td>
             <td>${expense.involved}</td>
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <button onclick="editExpense('${expense.id}')">Edit</button>
                 <button class="delete" onclick="removeExpense('${expense.id}')">Delete</button>
             </td>
-        ;
+        `;
         expenseTable.appendChild(row);
     };
 
@@ -184,12 +184,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         matrixTable.innerHTML = '';
         people.forEach(person => {
             const row = document.createElement('tr');
-            row.innerHTML = <td>${person}</td>;
+            row.innerHTML = `<td>${person}</td>`;
             people.forEach(otherPerson => {
                 if (matrix[person][otherPerson] === 0) {
                     row.innerHTML += '<td>-</td>';
                 } else {
-                    row.innerHTML += <td>$${Math.abs(matrix[person][otherPerson]).toFixed(2)}</td>;
+                    row.innerHTML += `<td>$${Math.abs(matrix[person][otherPerson]).toFixed(2)}</td>`;
                 }
             });
             matrixTable.appendChild(row);
