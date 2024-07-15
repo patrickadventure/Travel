@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             renderExpenseTable();
             updateMatrix();
-        });
+        }).catch(error => console.error("Error loading expenses: ", error));
     };
 
     expenseForm.addEventListener('submit', function(e) {
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             addExpenseToTable(expense);
             this.reset();
             triggerExplosion();
-        });
+        }).catch(error => console.error("Error adding expense: ", error));
     });
 
     const getSelectedCheckboxes = (name) => {
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         db.collection('expenses').doc(id).delete().then(() => {
             expenses = expenses.filter(expense => expense.id !== id);
             renderExpenseTable();
-        });
+        }).catch(error => console.error("Error removing expense: ", error));
     };
 
     window.editExpense = (id) => {
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
             expenses = expenses.map(exp => exp.id === id ? { ...expense, id } : exp);
             renderExpenseTable();
             editModal.style.display = 'none';
-        });
+        }).catch(error => console.error("Error editing expense: ", error));
     });
 
     trackerButton.onclick = () => {
@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (matrix[person][otherPerson] === 0) {
                     row.innerHTML += '<td>-</td>';
                 } else {
-                    row.innerHTML += `<td>$${matrix[person][otherPerson].toFixed(2)}</td>`;
+                    row.innerHTML += `<td>$${Math.abs(matrix[person][otherPerson]).toFixed(2)}</td>`;
                 }
             });
             matrixTable.appendChild(row);
@@ -178,24 +178,20 @@ document.addEventListener('DOMContentLoaded', () => {
     loadExpenses();
 
     function triggerExplosion() {
-        // Assuming 'container' is the main element of your expense tracker
         const container = document.querySelector('.container');
-        if (!container) return; // If container is not found, don't proceed
+        if (!container) return;
 
         const particlesId = 'particles-js';
         let particlesDiv = document.getElementById(particlesId);
 
-        // Remove existing particles to prevent duplicates
         if (particlesDiv) {
             particlesDiv.remove();
         }
 
-        // Create a new particles container
         particlesDiv = document.createElement('div');
         particlesDiv.id = particlesId;
         container.appendChild(particlesDiv);
 
-        // Initialize particles
         particlesJS(particlesId, {
             particles: {
                 number: {
