@@ -1,117 +1,294 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense Tracker</title>
-    <link rel="stylesheet" href="expense.css">
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-    <script type="module" src="app.js"></script>
-</head>
-<body>
-    <div class="container">
-        <div class="button-group">
-            <button id="trackerButton">Expense Tracker</button>
-            <button id="matrixButton">Expense Matrix</button>
-        </div>
-        <div id="trackerContainer">
-            <h1>Expense Tracker</h1>
-            <form id="expenseForm">
-                <input type="date" id="date" required>
-                
-                <select id="person" required>
-                    <option value="" disabled selected>Person Who Paid</option>
-                    <option value="Julia">Julia</option>
-                    <option value="Tik">Tik</option>
-                    <option value="David">David</option>
-                    <option value="Jen">Jen</option>
-                </select>
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-                <div class="involved-box">
-                    <p>People Involved</p>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" value="Julia" id="involvedJulia"> Julia</label>
-                        <label><input type="checkbox" value="Tik" id="involvedTik"> Tik</label>
-                        <label><input type="checkbox" value="David" id="involvedDavid"> David</label>
-                        <label><input type="checkbox" value="Jen" id="involvedJen"> Jen</label>
-                    </div>
-                </div>
+/* Import the Poppins font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
 
-                <input type="text" id="location" placeholder="Location" required>
-                <input type="text" id="description" placeholder="What was the expense for?" required>
-                <input type="number" id="amount" placeholder="Amount" required>
+/* Body Styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    display: flex;
+    flex-direction: column; /* Ensure body is a column flexbox */
+    min-height: 100vh; /* Make sure body takes full height */
+    margin: 0;
+    padding: 0;
+}
 
-                <button type="submit">Add Expense</button>
-            </form>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Person</th>
-                        <th>Involved</th>
-                        <th>Location</th>
-                        <th>Description</th>
-                        <th>Amount</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="expenseTable">
-                </tbody>
-            </table>
-        </div>
-        <div id="matrixContainer" style="display: none;">
-            <h1>Expense Matrix</h1>
-            <p>The top column represents what they are owed and the left-hand side represents what they owe.</p>
-            <table id="matrixTable">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Julia Owed</th>
-                        <th>Tik Owed</th>
-                        <th>David Owed</th>
-                        <th>Jen Owed</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Dynamic content goes here -->
-                </tbody>
-            </table>
-        </div>
-    </div>
+/* Header Styling */
+header {
+    width: 100%;
+    background: #f8f9fa;
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
 
-    <div id="editModal" class="modal">
-        <div class="modal-content">
-            <form id="editExpenseForm">
-                <input type="hidden" id="editIndex">
-                <input type="date" id="editDate" required>
+header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px;
+}
 
-                <select id="editPerson" required>
-                    <option value="" disabled selected>Person Who Paid</option>
-                    <option value="Julia">Julia</option>
-                    <option value="Tik">Tik</option>
-                    <option value="David">David</option>
-                    <option value="Jen">Jen</option>
-                </select>
+header nav ul li {
+    position: relative;
+}
 
-                <div class="involved-box">
-                    <p>People Involved</p>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" value="Julia" id="editInvolvedJulia"> Julia</label>
-                        <label><input type="checkbox" value="Tik" id="editInvolvedTik"> Tik</label>
-                        <label><input type="checkbox" value="David" id="editInvolvedDavid"> David</label>
-                        <label><input type="checkbox" value="Jen" id="editInvolvedJen"> Jen</label>
-                    </div>
-                </div>
+header nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 200;
+}
 
-                <input type="text" id="editLocation" placeholder="Location" required>
-                <input type="text" id="editDescription" placeholder="What was the expense for?" required>
-                <input type="number" id="editAmount" placeholder="Amount" required>
+/* Container Styling */
+.container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    width: 90%;
+    max-width: 800px;
+    margin: 80px auto 20px auto; /* Margin to push it below the fixed header */
+    position: relative;
+    overflow: hidden;
+}
 
-                <button type="submit">Save Changes</button>
-            </form>
-        </div>
-    </div>
-    <script src="scripts.js"></script>
-</body>
-</html>
+/* Heading Styling */
+h1 {
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 500;
+    color: #444;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+input, select, button {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    width: 100%;
+}
+
+button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+/* Involved Box Styling */
+.involved-box {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f7f7f7;
+    margin-bottom: 10px;
+}
+
+.involved-box p {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.checkbox-group {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+}
+
+.checkbox-group input {
+    transform: scale(1.5);
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    overflow-x: auto; /* Ensure table can be scrolled horizontally */
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f0f0f0;
+}
+
+.actions {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap; /* Allow wrapping of buttons */
+}
+
+.actions button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    padding: 5px 10px;
+    font-size: 14px;
+    flex: 1 1 auto; /* Ensure buttons are responsive */
+}
+
+.actions button:hover {
+    background-color: #555;
+}
+
+.actions .delete {
+    background-color: #dc3545;
+}
+
+.actions .delete:hover {
+    background-color: #c82333;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover, .close:focus {
+    color: #000;
+}
+
+/* Particle Effect Styling */
+#particles-js {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* Button Group Styling */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.button-group button {
+    flex: 1;
+}
+
+/* Footer Styling */
+footer {
+    width: 100%;
+    background: #f8f9fa;
+    padding: 10px 20px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .container {
+        width: 100%;
+        padding: 10px;
+        margin-top: 100px; /* Ensure content is pushed below the header */
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    th, td {
+        padding: 5px;
+    }
+
+    .actions {
+        display: flex;
+        gap: 2px;
+        flex-wrap: wrap;
+    }
+
+    .actions button {
+        padding: 5px;
+        font-size: 12px;
+    }
+
+    .involved-box p, .checkbox-group label {
+        font-size: 14px;
+    }
+
+    input, select, button {
+        font-size: 14px;
+        padding: 8px;
+    }
+}
