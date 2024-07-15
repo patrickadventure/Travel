@@ -222,6 +222,10 @@ th {
         padding: 5px;
     }
 
+    .actions {
+        white-space: nowrap; /* Prevent actions from wrapping */
+    }
+
     .actions button {
         padding: 5px;
         font-size: 12px;
