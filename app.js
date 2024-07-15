@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             renderExpenseTable();
             updateMatrix();
-        }).catch(error => console.error("Error loading expenses: ", error));
+        });
     };
 
     expenseForm.addEventListener('submit', function(e) {
