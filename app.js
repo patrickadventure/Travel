@@ -158,11 +158,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         const people = ['Julia', 'Tik', 'David', 'Jen'];
         const matrix = {};
     
-        // Initialize the matrix
+        // Initialize the matrix for all pairs
         people.forEach(person => {
             matrix[person] = {};
             people.forEach(otherPerson => {
-                matrix[person][otherPerson] = 0; // Initialize matrix for all pairs
+                matrix[person][otherPerson] = 0; // Initialize for all individual relationships
             });
         });
     
@@ -173,29 +173,33 @@ document.addEventListener('DOMContentLoaded', async () => {
     
             involved.forEach(involvedPerson => {
                 if (involvedPerson !== expense.person) {
-                    matrix[involvedPerson][expense.person] += splitAmount; // Person owes the payer
-                    matrix[expense.person][involvedPerson] -= splitAmount; // Payer is owed by the person
+                    matrix[involvedPerson][expense.person] += splitAmount; // Involved owes the payer
+                    matrix[expense.person][involvedPerson] -= splitAmount; // Payer is owed by the involved
                 }
             });
         });
     
-        // Update the matrix table to include a row for each person and columns for all others
+        // Update the matrix table
         const matrixTable = document.getElementById('matrixTable').getElementsByTagName('tbody')[0];
-        matrixTable.innerHTML = '';
+        matrixTable.innerHTML = ''; // Clear previous rows
         people.forEach(person => {
             const row = document.createElement('tr');
             row.innerHTML = `<td>${person} Owes</td>`;
             people.forEach(otherPerson => {
                 let balance = matrix[person][otherPerson];
-                if (balance > 0) {
-                    row.innerHTML += `<td>$${balance.toFixed(2)}</td>`;
+                if (person === otherPerson) {
+                    row.innerHTML += '<td>-</td>'; // No self owing
+                } else if (balance > 0) {
+                    row.innerHTML += `<td>$${balance.toFixed(2)}</td>`; // Display positive values when person owes otherPerson
                 } else {
-                    row.innerHTML += '<td>-</td>';
+                    row.innerHTML += '<td>-</td>'; // Display dash for no debt
                 }
             });
             matrixTable.appendChild(row);
         });
     };
+    
+    await loadExpenses(); // Make sure this function is called to initially populate the data
 
     await loadExpenses();
 
