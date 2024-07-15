@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const expenseTable = document.getElementById('expenseTable');
     const editModal = document.getElementById('editModal');
     const editExpenseForm = document.getElementById('editExpenseForm');
-    const closeModal = document.querySelector('.close');
     const trackerContainer = document.getElementById('trackerContainer');
     const matrixContainer = document.getElementById('matrixContainer');
     const trackerButton = document.getElementById('trackerButton');
@@ -86,18 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         expenses[index] = { date, person, involved, location, description, amount };
         localStorage.setItem('expenses', JSON.stringify(expenses));
-        location.reload();
+        window.location.reload();
     });
-
-    closeModal.onclick = () => {
-        editModal.style.display = 'none';
-    };
-
-    window.onclick = (event) => {
-        if (event.target == editModal) {
-            editModal.style.display = 'none';
-        }
-    };
 
     trackerButton.onclick = () => {
         trackerContainer.style.display = 'block';
@@ -169,87 +158,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Create a new particles container
         particlesDiv = document.createElement('div');
-        particlesDiv.id = particlesId;
-        container.appendChild(particlesDiv);
-
-        // Initialize particles
-        particlesJS(particlesId, {
-            particles: {
-                number: {
-                    value: 50,
-                    density: {
-                        enable: true,
-                        value_area: 800
-                    }
-                },
-                color: {
-                    value: "#ffffff"
-                },
-                shape: {
-                    type: "image",
-                    image: {
-                        src: "https://cdn-icons-png.flaticon.com/128/12740/12740855.png",
-                        width: 100,
-                        height: 100
-                    }
-                },
-                opacity: {
-                    value: 0.5,
-                    anim: {
-                        enable: true,
-                        speed: 1.5,
-                        opacity_min: 0
-                    }
-                },
-                size: {
-                    value: 10,
-                    random: true,
-                    anim: {
-                        enable: true,
-                        speed: 2,
-                        size_min: 0.3
-                    }
-                },
-                line_linked: {
-                    enable: false
-                },
-                move: {
-                    enable: true,
-                    speed: 5,
-                    direction: "none",
-                    random: true,
-                    straight: false,
-                    out_mode: "out",
-                    bounce: false,
-                    attract: {
-                        enable: false
-                    }
-                }
-            },
-            interactivity: {
-                detect_on: "canvas",
-                events: {
-                    onhover: {
-                        enable: false
-                    },
-                    onclick: {
-                        enable: false
-                    }
-                }
-            },
-            retina_detect: true
-        });
-
-        setTimeout(() => {
-            if (particlesDiv) {
-                particlesDiv.style.transition = 'opacity 1s';
-                particlesDiv.style.opacity = '0';
-                setTimeout(() => {
-                    if (particlesDiv) {
-                        particlesDiv.remove();
-                    }
-                }, 1000);
-            }
-        }, 1000);
-    }
-});
+        particlesDiv.id =
