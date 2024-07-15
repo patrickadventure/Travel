@@ -1,4 +1,3 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
 import { getFirestore, collection, getDocs, addDoc, setDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
@@ -173,7 +172,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             involved.forEach(person => {
                 if (person !== expense.person) {
-                    matrix[expense.person][person] += splitAmount;
+                    matrix[person][expense.person] += splitAmount;
+                    matrix[expense.person][person] -= splitAmount;
                 }
             });
         });
@@ -185,10 +185,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             const row = document.createElement('tr');
             row.innerHTML = `<td>${person} Owes</td>`;
             people.forEach(otherPerson => {
-                if (matrix[otherPerson][person] === 0) {
+                if (matrix[person][otherPerson] <= 0) {
                     row.innerHTML += '<td>-</td>';
                 } else {
-                    row.innerHTML += `<td>$${Math.abs(matrix[otherPerson][person]).toFixed(2)}</td>`;
+                    row.innerHTML += `<td>$${matrix[person][otherPerson].toFixed(2)}</td>`;
                 }
             });
             matrixTable.appendChild(row);
@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     await loadExpenses();
 
-    window.triggerExplosion = function() {
+    window.triggerExplosion = () => {
         const container = document.querySelector('.container');
         if (!container) return;
 
@@ -290,5 +290,5 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }, 1000);
             }
         }, 1000);
-    }
+    };
 });
