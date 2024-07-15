@@ -26,16 +26,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     let expenses = [];
 
     const loadExpenses = async () => {
-        const querySnapshot = await getDocs(collection(db, 'expenses'));
-        console.log("Expenses fetched successfully.");
-        expenses = [];
-        querySnapshot.forEach(doc => {
-            let data = doc.data();
-            data.id = doc.id;
-            expenses.push(data);
-        });
-        renderExpenseTable();
-        updateMatrix();
+        try {
+            const querySnapshot = await getDocs(collection(db, 'expenses'));
+            console.log("Expenses fetched successfully.");
+            expenses = [];
+            querySnapshot.forEach(doc => {
+                let data = doc.data();
+                data.id = doc.id;
+                expenses.push(data);
+            });
+            renderExpenseTable();
+            updateMatrix();
+        } catch (error) {
+            console.error("Error fetching expenses: ", error);
+        }
     };
 
     expenseForm.addEventListener('submit', async function(e) {
