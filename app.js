@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const loadExpenses = () => {
         db.collection('expenses').get().then(querySnapshot => {
+            console.log("Expenses fetched successfully.");
             expenses = [];
             querySnapshot.forEach(doc => {
                 let data = doc.data();
@@ -47,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const expense = { date, person, involved, location, description, amount };
 
         db.collection('expenses').add(expense).then(docRef => {
+            console.log("Expense added successfully.");
             expense.id = docRef.id;
             expenses.push(expense);
             addExpenseToTable(expense);
@@ -123,11 +125,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     trackerButton.onclick = () => {
+        console.log("Tracker Button Clicked");
         trackerContainer.style.display = 'block';
         matrixContainer.style.display = 'none';
     };
 
     matrixButton.onclick = () => {
+        console.log("Matrix Button Clicked");
         trackerContainer.style.display = 'none';
         matrixContainer.style.display = 'block';
         updateMatrix();
