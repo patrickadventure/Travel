@@ -162,9 +162,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         people.forEach(person => {
             matrix[person] = {};
             people.forEach(otherPerson => {
-                if (person !== otherPerson) {
-                    matrix[person][otherPerson] = 0; // Only initialize for different people
-                }
+                matrix[person][otherPerson] = 0; // Initialize matrix for all pairs
             });
         });
     
@@ -181,20 +179,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         });
     
-        // Update the matrix table
+        // Update the matrix table to include a row for each person and columns for all others
         const matrixTable = document.getElementById('matrixTable').getElementsByTagName('tbody')[0];
         matrixTable.innerHTML = '';
         people.forEach(person => {
             const row = document.createElement('tr');
-            row.innerHTML = `<td>${person} Owes</td>`; // Adjust to indicate the direction of debt
+            row.innerHTML = `<td>${person} Owes</td>`;
             people.forEach(otherPerson => {
-                if (person !== otherPerson) {
-                    let balance = matrix[person][otherPerson];
-                    if (balance > 0) {
-                        row.innerHTML += `<td>$${balance.toFixed(2)}</td>`; // Show only amounts that person owes
-                    } else {
-                        row.innerHTML += '<td>-</td>';
-                    }
+                let balance = matrix[person][otherPerson];
+                if (balance > 0) {
+                    row.innerHTML += `<td>$${balance.toFixed(2)}</td>`;
+                } else {
+                    row.innerHTML += '<td>-</td>';
                 }
             });
             matrixTable.appendChild(row);
