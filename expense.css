@@ -14,9 +14,40 @@ body {
     background-color: #f9f9f9;
     color: #333;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    flex-direction: column; /* Ensure body is a column flexbox */
+    min-height: 100vh; /* Make sure body takes full height */
+    margin: 0;
+    padding: 0;
+}
+
+/* Header Styling */
+header {
+    width: 100%;
+    background: #f8f9fa;
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px;
+}
+
+header nav ul li {
+    position: relative;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 200;
 }
 
 /* Container Styling */
@@ -27,6 +58,7 @@ body {
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     width: 90%;
     max-width: 800px;
+    margin: 80px auto 20px auto; /* Margin to push it below the fixed header */
     position: relative;
     overflow: hidden;
 }
@@ -209,11 +241,25 @@ th {
     flex: 1;
 }
 
+/* Footer Styling */
+footer {
+    width: 100%;
+    background: #f8f9fa;
+    padding: 10px 20px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+}
+
 /* Responsive Design */
 @media (max-width: 600px) {
     .container {
         width: 100%;
         padding: 10px;
+        margin-top: 100px; /* Ensure content is pushed below the header */
     }
 
     table {
