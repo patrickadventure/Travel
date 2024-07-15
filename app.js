@@ -173,8 +173,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             involved.forEach(person => {
                 if (person !== expense.person) {
-                    matrix[person][expense.person] += splitAmount;
-                    matrix[expense.person][person] -= splitAmount;
+                    matrix[expense.person][person] += splitAmount;
                 }
             });
         });
@@ -184,12 +183,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         matrixTable.innerHTML = '';
         people.forEach(person => {
             const row = document.createElement('tr');
-            row.innerHTML = `<td>${person}</td>`;
+            row.innerHTML = `<td>${person} Owes</td>`;
             people.forEach(otherPerson => {
-                if (matrix[person][otherPerson] === 0) {
+                if (matrix[otherPerson][person] === 0) {
                     row.innerHTML += '<td>-</td>';
                 } else {
-                    row.innerHTML += `<td>$${Math.abs(matrix[person][otherPerson]).toFixed(2)}</td>`;
+                    row.innerHTML += `<td>$${Math.abs(matrix[otherPerson][person]).toFixed(2)}</td>`;
                 }
             });
             matrixTable.appendChild(row);
