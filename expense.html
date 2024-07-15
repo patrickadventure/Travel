@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="expense.css">
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+</head>
+<body>
+    <div class="button-container">
+        <button id="trackerButton">Expense Tracker</button>
+        <button id="matrixButton">Expense Matrix</button>
+    </div>
+    <div class="container">
+        <h1>Expense Tracker</h1>
+        <form id="expenseForm">
+            <input type="date" id="date" required>
+            
+            <select id="person" required>
+                <option value="" disabled selected>Person Who Paid</option>
+                <option value="Julia">Julia</option>
+                <option value="Tik">Tik</option>
+                <option value="David">David</option>
+                <option value="Jen">Jen</option>
+            </select>
+
+            <div class="involved-box">
+                <p>People Involved</p>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" value="Julia" id="involvedJulia"> Julia</label>
+                    <label><input type="checkbox" value="Tik" id="involvedTik"> Tik</label>
+                    <label><input type="checkbox" value="David" id="involvedDavid"> David</label>
+                    <label><input type="checkbox" value="Jen" id="involvedJen"> Jen</label>
+                </div>
+            </div>
+
+            <input type="text" id="location" placeholder="Location" required>
+            <input type="text" id="description" placeholder="What was the expense for?" required>
+            <input type="number" id="amount" placeholder="Amount" required>
+
+            <button type="submit">Add Expense</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Person</th>
+                    <th>Involved</th>
+                    <th>Location</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="expenseTable">
+            </tbody>
+        </table>
+    </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form id="editExpenseForm">
+                <input type="hidden" id="editIndex">
+                <input type="date" id="editDate" required>
+
+                <select id="editPerson" required>
+                    <option value="" disabled selected>Person Who Paid</option>
+                    <option value="Julia">Julia</option>
+                    <option value="Tik">Tik</option>
+                    <option value="David">David</option>
+                    <option value="Jen">Jen</option>
+                </select>
+
+                <div class="involved-box">
+                    <p>People Involved</p>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" value="Julia" id="editInvolvedJulia"> Julia</label>
+                        <label><input type="checkbox" value="Tik" id="editInvolvedTik"> Tik</label>
+                        <label><input type="checkbox" value="David" id="editInvolvedDavid"> David</label>
+                        <label><input type="checkbox" value="Jen" id="editInvolvedJen"> Jen</label>
+                    </div>
+                </div>
+
+                <input type="text" id="editLocation" placeholder="Location" required>
+                <input type="text" id="editDescription" placeholder="What was the expense for?" required>
+                <input type="number" id="editAmount" placeholder="Amount" required>
+
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+    <div id="matrixContainer" style="display: none;">
+        <h1>Expense Matrix</h1>
+        <p>The top row represents who is owed money, and the left column represents who owes money.</p>
+        <table id="matrixTable">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Julia</th>
+                    <th>Tik</th>
+                    <th>David</th>
+                    <th>Jen</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><th>Julia</th><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                <tr><th>Tik</th><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                <tr><th>David</th><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                <tr><th>Jen</th><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
