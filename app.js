@@ -133,4 +133,127 @@ document.addEventListener('DOMContentLoaded', () => {
 
         expenses.forEach(expense => {
             const involvedPeople = expense.involved.split(', ').filter(person => person !== expense.person);
-            const amountPerPerson = parseFloat(expense.amount) / (involved
+            const amountPerPerson = parseFloat(expense.amount) / (involvedPeople.length + 1);
+            involvedPeople.forEach(person => {
+                matrix[expense.person][person] += amountPerPerson;
+                matrix[person][expense.person] -= amountPerPerson;
+            });
+        });
+
+        const matrixTable = document.getElementById('matrixTable').getElementsByTagName('tbody')[0];
+        matrixTable.innerHTML = '';
+        people.forEach(p => {
+            const row = document.createElement('tr');
+            row.innerHTML = `<th>${p}</th>` + people.map(q => `<td>${matrix[p][q] !== 0 ? '$' + Math.abs(matrix[p][q]).toFixed(2) : '-'}</td>`).join('');
+            matrixTable.appendChild(row);
+        });
+    };
+
+    const showExpenseTracker = () => {
+        container.style.display = 'block';
+        matrixContainer.style.display = 'none';
+    };
+
+    const showExpenseMatrix = () => {
+        container.style.display = 'none';
+        matrixContainer.style.display = 'block';
+        calculateExpenseMatrix();
+    };
+
+    trackerButton.addEventListener('click', showExpenseTracker);
+    matrixButton.addEventListener('click', showExpenseMatrix);
+
+    loadExpenses();
+
+    function triggerExplosion() {
+        const particlesId = 'particles-js';
+        let particlesDiv = document.getElementById(particlesId);
+
+        if (particlesDiv) {
+            particlesDiv.remove();
+        }
+
+        particlesDiv = document.createElement('div');
+        particlesDiv.id = particlesId;
+        container.appendChild(particlesDiv);
+
+        particlesJS(particlesId, {
+            particles: {
+                number: {
+                    value: 50,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: "#ffffff"
+                },
+                shape: {
+                    type: "image",
+                    image: {
+                        src: "https://cdn-icons-png.flaticon.com/128/12740/12740855.png",
+                        width: 100,
+                        height: 100
+                    }
+                },
+                opacity: {
+                    value: 0.5,
+                    anim: {
+                        enable: true,
+                        speed: 1.5,
+                        opacity_min: 0
+                    }
+                },
+                size: {
+                    value: 10,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.3
+                    }
+                },
+                line_linked: {
+                    enable: false
+                },
+                move: {
+                    enable: true,
+                    speed: 5,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: {
+                        enable: false
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: false
+                    },
+                    onclick: {
+                        enable: false
+                    }
+                }
+            },
+            retina_detect: true
+        });
+
+        setTimeout(() => {
+            if (particlesDiv) {
+                particlesDiv.style.transition = 'opacity 1s';
+                particlesDiv.style.opacity = '0';
+                setTimeout(() => {
+                    if (particlesDiv) {
+                        particlesDiv.remove();
+                    }
+                }, 1000);
+            }
+        }, 1000);
+    }
+});
