@@ -5,17 +5,11 @@
     box-sizing: border-box;
 }
 
-/* Import the Poppins font */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
-
 /* Body Styling */
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #f9f9f9;
     color: #333;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
 }
 
 /* Container Styling */
@@ -23,22 +17,12 @@ body {
     background: #fff;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    width: 100%; /* Adjusted for mobile */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
     max-width: 800px;
-    margin: 80px auto 60px; /* Ensures enough margin on mobile */
     position: relative;
     overflow: hidden;
-}
-
-/* Footer Styling */
-footer {
-    background: #f8f9fa;
-    padding: 10px 20px;
-    text-align: center;
-    position: relative;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-    margin-top: auto;
+    margin: 20px auto;
 }
 
 /* Heading Styling */
@@ -115,10 +99,15 @@ button:hover {
 }
 
 /* Table Styling */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
-    overflow-x: auto; /* Ensures table is scrollable on small screens */
+    font-size: 14px;
 }
 
 th, td {
@@ -126,6 +115,7 @@ th, td {
     padding: 10px;
     text-align: left;
     min-height: 50px;
+    white-space: nowrap; /* Prevents text wrapping */
 }
 
 th {
@@ -133,38 +123,105 @@ th {
 }
 
 .actions {
-    padding: 5px 0; /* Adjusted padding for better alignment */
-    display: flex;
-    justify-content: space-around; /* Ensures buttons are evenly spaced */
+    padding: 5px 10px;
+    min-width: 80px;
+    white-space: nowrap; /* Prevents text wrapping */
 }
 
 .actions button {
-    padding: 5px 10px; /* Ensures buttons are not too large */
-    min-width: 60px; /* Ensures text fits within the buttons */
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    padding: 5px 10px;
+    margin-right: 5px; /* Add space between buttons */
 }
 
-/* Adjustments for small screens */
+.actions button:hover {
+    background-color: #555;
+}
+
+.actions .delete {
+    background-color: #dc3545;
+}
+
+.actions .delete:hover {
+    background-color: #c82333;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover, .close:focus {
+    color: #000;
+}
+
+/* Particle Effect Styling */
+#particles-js {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* Button Group Styling */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.button-group button {
+    flex: 1;
+}
+
+/* Responsive Styles */
 @media (max-width: 600px) {
     .container {
-        margin: 20px auto; /* Reduced top margin for better view on mobile */
-        width: 95%; /* Makes container slightly wider on mobile */
-    }
-
-    .actions {
-        flex-wrap: nowrap; /* Prevents buttons from wrapping */
+        width: 100%;
+        margin: 10px;
+        padding: 10px;
     }
 
     table {
-        display: block;
-        overflow-x: auto; /* Enables horizontal scrolling */
-        white-space: nowrap; /* Prevents table text from wrapping */
-    }
-
-    th, td {
-        min-width: 120px; /* Ensures cells have a minimum width */
+        font-size: 12px;
     }
 
     .actions button {
-        min-width: 50px; /* Ensures buttons are not too small */
+        padding: 5px;
+        font-size: 12px;
     }
 }
