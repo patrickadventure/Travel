@@ -52,7 +52,8 @@
         };
         var map = new kakao.maps.Map(mapContainer, mapOption);
         var places = new kakao.maps.services.Places();
-
+        var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+        
         // Handle form submissions to add markers
         document.getElementById('locationForm').addEventListener('submit', function(e) {
             e.preventDefault();
