@@ -94,16 +94,6 @@ window.initializeMap = function() {
     document.getElementById('removeMarkersButton').addEventListener('click', function() {
         removeMarkers();
     });
-
-    document.getElementById('showMapButton').addEventListener('click', function() {
-        document.querySelector('.map-container').style.display = 'block';
-        document.querySelector('.form-container').style.display = 'none';
-    });
-
-    document.getElementById('showFormButton').addEventListener('click', function() {
-        document.querySelector('.map-container').style.display = 'none';
-        document.querySelector('.form-container').style.display = 'block';
-    });
 }
 
 async function saveMarkerToFirebase(name, lat, lng, category, date) {
