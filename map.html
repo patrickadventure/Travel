@@ -81,11 +81,6 @@
             align-items: center;
             margin-bottom: 5px;
         }
-        .legend .color-box {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
-        }
         @media (max-width: 768px) {
             main {
                 flex-direction: column;
@@ -113,16 +108,31 @@
                 </select>
                 <button type="submit">Add Marker</button>
             </form>
+            <div>
+                <h3>Filters</h3>
+                <label for="filterDate">Filter by Date:</label>
+                <input type="date" id="filterDate">
+                <label for="filterCategory">Filter by Category:</label>
+                <select id="filterCategory">
+                    <option value="all">All</option>
+                    <option value="food">Food</option>
+                    <option value="activity">Activity</option>
+                    <option value="drinks">Drinks</option>
+                    <option value="treatment">Treatment</option>
+                </select>
+                <button id="applyFiltersButton">Apply Filters</button>
+                <button id="removeFiltersButton">Remove Filters</button>
+            </div>
             <button id="removeMarkersButton">Remove All Markers</button>
         </div>
         <div class="map-container">
             <div id="map"></div>
             <div class="legend">
                 <h3>Legend</h3>
-                <div class="item"><div class="color-box" style="background: blue;"></div>Food</div>
-                <div class="item"><div class="color-box" style="background: red;"></div>Activity</div>
-                <div class="item"><div class="color-box" style="background: green;"></div>Drinks</div>
-                <div class="item"><div class="color-box" style="background: pink;"></div>Treatment</div>
+                <div class="item"><div class="color-box" style="background-color: blue;"></div>Food</div>
+                <div class="item"><div class="color-box" style="background-color: red;"></div>Activity</div>
+                <div class="item"><div class="color-box" style="background-color: green;"></div>Drinks</div>
+                <div class="item"><div class="color-box" style="background-color: pink;"></div>Treatment</div>
             </div>
         </div>
     </main>
