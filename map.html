@@ -1,1 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Map of Korea</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+        .form-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .form-container form {
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .form-container input, .form-container button {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <header></header>
+    
+    <main>
+        <h1>Interactive Map of Korea</h1>
+        <div class="form-container">
+            <form id="locationForm">
+                <input type="text" id="locationName" placeholder="Location Name" required>
+                <input type="number" id="latitude" placeholder="Latitude" step="any" required>
+                <input type="number" id="longitude" placeholder="Longitude" step="any" required>
+                <button type="submit">Add Marker</button>
+            </form>
+        </div>
+        <div id="map"></div>
+    </main>
+    
+    <footer></footer>
 
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="scripts.js"></script>
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([36.5, 127.5], 7); // Centered on Korea
+
+        // Add a tile layer to the map
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Handle form submissions to add markers
+        document.getElementById('locationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var locationName = document.getElementById('locationName').value;
+            var latitude = parseFloat(document.getElementById('latitude').value);
+            var longitude = parseFloat(document.getElementById('longitude').value);
+
+            if (!isNaN(latitude) && !isNaN(longitude)) {
+                var marker = L.marker([latitude, longitude]).addTo(map);
+                marker.bindPopup('<b>' + locationName + '</b>').openPopup();
+            } else {
+                alert('Please enter valid latitude and longitude.');
+            }
+
+            // Clear the form
+            document.getElementById('locationForm').reset();
+        });
+
+        // Load header and footer
+        loadHeaderFooter();
+    </script>
+</body>
+</html>
