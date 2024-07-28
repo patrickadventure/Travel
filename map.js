@@ -148,9 +148,8 @@ function removeMarkers() {
 async function clearMarkersFromFirebase() {
     try {
         const querySnapshot = await getDocs(collection(db, 'markers'));
-        querySnapshot.forEach(async doc => {
-            await deleteDoc(doc(db, 'markers', doc.id));
-        });
+        const deletePromises = querySnapshot.docs.map(doc => deleteDoc(doc.ref));
+        await Promise.all(deletePromises);
         console.log('All markers removed from Firebase');
     } catch (error) {
         console.error('Error removing markers: ', error);
