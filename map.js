@@ -1,5 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js';
-import { getFirestore, collection, getDocs, addDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js';
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCZURzxdOwJauWX-CT8BYN1VSQ5a7JJWBk",
@@ -15,14 +15,36 @@ const db = getFirestore(app);
 
 let map, service, infowindow, autocomplete;
 let markers = [];
+let allMarkersData = [];
+
+const customMapStyle = [
+    {
+        featureType: 'all',
+        stylers: [{ visibility: 'off' }]
+    },
+    {
+        featureType: 'administrative.country',
+        elementType: 'geometry.stroke',
+        stylers: [{ visibility: 'on' }, { color: '#ff0000' }]
+    },
+    {
+        featureType: 'administrative.country',
+        elementType: 'labels',
+        stylers: [{ visibility: 'on' }]
+    },
+    {
+        featureType: 'administrative.country',
+        elementType: 'labels.text.fill',
+        stylers: [{ visibility: 'on' }, { color: '#ff0000' }]
+    }
+];
 
 window.initializeMap = function() {
     const center = { lat: 36.5, lng: 127.5 }; // Centered on Korea
     map = new google.maps.Map(document.getElementById("map"), {
         center: center,
         zoom: 7,
-        disableDefaultUI: true, // Disable default UI
-        zoomControl: true, // Keep zoom control
+        styles: customMapStyle
     });
 
     service = new google.maps.places.PlacesService(map);
@@ -96,6 +118,14 @@ window.initializeMap = function() {
     document.getElementById('removeMarkersButton').addEventListener('click', function() {
         removeMarkers();
     });
+
+    document.getElementById('applyFiltersButton').addEventListener('click', function() {
+        applyFilters();
+    });
+
+    document.getElementById('removeFiltersButton').addEventListener('click', function() {
+        loadMarkers();
+    });
 }
 
 async function saveMarkerToFirebase(name, lat, lng, category, date) {
@@ -116,42 +146,56 @@ async function saveMarkerToFirebase(name, lat, lng, category, date) {
 async function loadMarkers() {
     try {
         const querySnapshot = await getDocs(collection(db, 'markers'));
+        allMarkersData = [];
         querySnapshot.forEach(doc => {
             const data = doc.data();
-            const location = new google.maps.LatLng(data.lat, data.lng);
-            const marker = new google.maps.Marker({
-                position: location,
-                map: map,
-                title: `${data.name} (${data.date})`,
-                icon: getMarkerIcon(data.category)
-            });
-
-            markers.push(marker);
-            google.maps.event.addListener(marker, 'click', () => {
-                infowindow.setContent(data.name);
-                infowindow.open(map, marker);
-            });
+            allMarkersData.push(data);
         });
+        displayMarkers(allMarkersData);
     } catch (error) {
         console.error('Error loading markers: ', error);
     }
 }
 
+function displayMarkers(data) {
+    removeMarkers();
+    data.forEach(markerData => {
+        const location = new google.maps.LatLng(markerData.lat, markerData.lng);
+        const marker = new google.maps.Marker({
+            position: location,
+            map: map,
+            title: `${markerData.name} (${markerData.date})`,
+            icon: getMarkerIcon(markerData.category)
+        });
+
+        markers.push(marker);
+        google.maps.event.addListener(marker, 'click', () => {
+            infowindow.setContent(markerData.name);
+            infowindow.open(map, marker);
+        });
+    });
+}
+
 function removeMarkers() {
     markers.forEach(marker => marker.setMap(null));
     markers = [];
-    clearMarkersFromFirebase();
 }
 
-async function clearMarkersFromFirebase() {
-    try {
-        const querySnapshot = await getDocs(collection(db, 'markers'));
-        const deletePromises = querySnapshot.docs.map(doc => deleteDoc(doc.ref));
-        await Promise.all(deletePromises);
-        console.log('All markers removed from Firebase');
-    } catch (error) {
-        console.error('Error removing markers: ', error);
+function applyFilters() {
+    const filterDate = document.getElementById('filterDate').value;
+    const filterCategory = document.getElementById('filterCategory').value;
+
+    let filteredMarkers = allMarkersData;
+
+    if (filterDate) {
+        filteredMarkers = filteredMarkers.filter(marker => marker.date === filterDate);
     }
+
+    if (filterCategory && filterCategory !== 'all') {
+        filteredMarkers = filteredMarkers.filter(marker => marker.category === filterCategory);
+    }
+
+    displayMarkers(filteredMarkers);
 }
 
 function getMarkerIcon(category) {
