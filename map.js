@@ -58,6 +58,7 @@ window.initializeMap = function() {
     document.getElementById('locationForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const locationName = document.getElementById('locationName').value;
+        const date = document.getElementById('date').value;
         const category = document.getElementById('category').value;
 
         const request = {
@@ -71,7 +72,7 @@ window.initializeMap = function() {
                 const marker = new google.maps.Marker({
                     position: location,
                     map: map,
-                    title: results[0].name,
+                    title: `${results[0].name} (${date})`,
                     icon: getMarkerIcon(category)
                 });
 
@@ -81,7 +82,7 @@ window.initializeMap = function() {
 
                 map.setCenter(location);
 
-                saveMarkerToFirebase(results[0].name, location.lat(), location.lng(), category);
+                saveMarkerToFirebase(results[0].name, location.lat(), location.lng(), category, date);
             } else {
                 alert('Location not found.');
             }
@@ -93,15 +94,26 @@ window.initializeMap = function() {
     document.getElementById('removeMarkersButton').addEventListener('click', function() {
         removeMarkers();
     });
+
+    document.getElementById('showMapButton').addEventListener('click', function() {
+        document.querySelector('.map-container').style.display = 'block';
+        document.querySelector('.form-container').style.display = 'none';
+    });
+
+    document.getElementById('showFormButton').addEventListener('click', function() {
+        document.querySelector('.map-container').style.display = 'none';
+        document.querySelector('.form-container').style.display = 'block';
+    });
 }
 
-async function saveMarkerToFirebase(name, lat, lng, category) {
+async function saveMarkerToFirebase(name, lat, lng, category, date) {
     try {
         await addDoc(collection(db, 'markers'), {
             name: name,
             lat: lat,
             lng: lng,
-            category: category
+            category: category,
+            date: date
         });
         console.log('Marker saved to Firebase');
     } catch (error) {
@@ -118,7 +130,7 @@ async function loadMarkers() {
             const marker = new google.maps.Marker({
                 position: location,
                 map: map,
-                title: data.name,
+                title: `${data.name} (${data.date})`,
                 icon: getMarkerIcon(data.category)
             });
 
