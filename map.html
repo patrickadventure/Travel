@@ -24,7 +24,6 @@
             font-size: 16px;
         }
     </style>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYzrFlKp-lrgUisQwWezfZTPdN-NJvBvE&libraries=places"></script>
 </head>
 <body>
     <header></header>
@@ -46,10 +45,9 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             loadHeaderFooter();
-            initializeMap();
         });
 
-        let map, service, infowindow;
+        let map, service, infowindow, autocomplete;
 
         function initializeMap() {
             const center = { lat: 36.5, lng: 127.5 }; // Centered on Korea
@@ -60,6 +58,33 @@
 
             service = new google.maps.places.PlacesService(map);
             infowindow = new google.maps.InfoWindow();
+
+            // Initialize autocomplete
+            const input = document.getElementById('locationName');
+            autocomplete = new google.maps.places.Autocomplete(input);
+            autocomplete.bindTo('bounds', map);
+
+            autocomplete.addListener('place_changed', function() {
+                infowindow.close();
+                const place = autocomplete.getPlace();
+
+                if (!place.geometry || !place.geometry.location) {
+                    alert("No details available for input: '" + place.name + "'");
+                    return;
+                }
+
+                const location = place.geometry.location;
+                const marker = new google.maps.Marker({
+                    position: location,
+                    map: map,
+                });
+
+                infowindow.setContent(place.name);
+                infowindow.open(map, marker);
+
+                // Center map to the marker
+                map.setCenter(location);
+            });
 
             // Handle form submissions to add markers
             document.getElementById('locationForm').addEventListener('submit', function(e) {
@@ -95,5 +120,6 @@
             });
         }
     </script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYzrFlKp-lrgUisQwWezfZTPdN-NJvBvE&libraries=places&callback=initializeMap"></script>
 </body>
 </html>
