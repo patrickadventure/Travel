@@ -18,7 +18,7 @@
             display: inline-block;
             margin-bottom: 20px;
         }
-        .form-container input, .form-container button {
+        .form-container input, .form-container button, .form-container select {
             margin: 5px;
             padding: 10px;
             font-size: 16px;
@@ -33,6 +33,12 @@
         <div class="form-container">
             <form id="locationForm">
                 <input type="text" id="locationName" placeholder="Search Location" required>
+                <select id="category">
+                    <option value="food" style="color: blue;">Food</option>
+                    <option value="activity" style="color: red;">Activity</option>
+                    <option value="drinks" style="color: green;">Drinks</option>
+                    <option value="treatment" style="color: pink;">Treatment</option>
+                </select>
                 <button type="submit">Add Marker</button>
             </form>
         </div>
@@ -42,9 +48,25 @@
     <footer></footer>
 
     <script src="scripts.js"></script>
-    <script>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
+        import { getFirestore, collection, getDocs, addDoc } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAYzrFlKp-lrgUisQwWezfZTPdN-NJvBvE",
+            authDomain: "expense-f7fb3.firebaseapp.com",
+            projectId: "expense-f7fb3",
+            storageBucket: "expense-f7fb3.appspot.com",
+            messagingSenderId: "240992662446",
+            appId: "1:240992662446:web:b06e29ebefe8fa1e7f4e3f"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
         document.addEventListener('DOMContentLoaded', function() {
-            loadHeaderFooter();
+            loadHeaderFooter(); // Ensure header and footer are loaded once
+            initializeMap();
         });
 
         let map, service, infowindow, autocomplete;
@@ -74,9 +96,10 @@
                 }
 
                 const location = place.geometry.location;
-                const marker = new google.maps.Marker({
+                const marker = new google.maps.marker.AdvancedMarkerElement({
                     position: location,
                     map: map,
+                    title: place.name
                 });
 
                 infowindow.setContent(place.name);
@@ -86,10 +109,14 @@
                 map.setCenter(location);
             });
 
+            // Load existing markers from Firebase
+            loadMarkers();
+
             // Handle form submissions to add markers
             document.getElementById('locationForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 const locationName = document.getElementById('locationName').value;
+                const category = document.getElementById('category').value;
 
                 // Search for the location
                 const request = {
@@ -100,9 +127,11 @@
                 service.findPlaceFromQuery(request, function(results, status) {
                     if (status === google.maps.places.PlacesServiceStatus.OK && results) {
                         const location = results[0].geometry.location;
-                        const marker = new google.maps.Marker({
+                        const marker = new google.maps.marker.AdvancedMarkerElement({
                             position: location,
                             map: map,
+                            title: results[0].name,
+                            category: category
                         });
 
                         infowindow.setContent(results[0].name);
@@ -110,6 +139,9 @@
 
                         // Center map to the marker
                         map.setCenter(location);
+
+                        // Save marker to Firebase
+                        saveMarkerToFirebase(results[0].name, location.lat(), location.lng(), category);
                     } else {
                         alert('Location not found.');
                     }
@@ -117,6 +149,41 @@
 
                 // Clear the form
                 document.getElementById('locationForm').reset();
+            });
+        }
+
+        function saveMarkerToFirebase(name, lat, lng, category) {
+            addDoc(collection(db, 'markers'), {
+                name: name,
+                lat: lat,
+                lng: lng,
+                category: category
+            }).then(() => {
+                console.log('Marker saved to Firebase');
+            }).catch(error => {
+                console.error('Error saving marker: ', error);
+            });
+        }
+
+        function loadMarkers() {
+            getDocs(collection(db, 'markers')).then(querySnapshot => {
+                querySnapshot.forEach(doc => {
+                    const data = doc.data();
+                    const location = new google.maps.LatLng(data.lat, data.lng);
+                    const marker = new google.maps.marker.AdvancedMarkerElement({
+                        position: location,
+                        map: map,
+                        title: data.name,
+                        category: data.category
+                    });
+
+                    google.maps.event.addListener(marker, 'click', () => {
+                        infowindow.setContent(data.name);
+                        infowindow.open(map, marker);
+                    });
+                });
+            }).catch(error => {
+                console.error('Error loading markers: ', error);
             });
         }
     </script>
