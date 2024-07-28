@@ -2,7 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/fireba
 import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCZURzxdOwJauWX-CT8BYN1VSQ5a7JJWBk",
+    apiKey: "AIzaSyAYzrFlKp-lrgUisQwWezfZTPdN-NJvBvE",
     authDomain: "expense-f7fb3.firebaseapp.com",
     projectId: "expense-f7fb3",
     storageBucket: "expense-f7fb3.appspot.com",
@@ -21,6 +21,9 @@ window.initializeMap = function () {
         center: { lat: 37.5665, lng: 126.9780 },
         zoom: 8
     });
+
+    const autocomplete = new google.maps.places.Autocomplete(document.getElementById('locationName'));
+    autocomplete.bindTo('bounds', map);
 
     document.getElementById('locationForm').addEventListener('submit', async function (e) {
         e.preventDefault();
