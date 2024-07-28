@@ -1,5 +1,5 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
-import { getFirestore, collection, getDocs, addDoc } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js';
+import { getFirestore, collection, getDocs, addDoc } from 'https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCZURzxdOwJauWX-CT8BYN1VSQ5a7JJWBk",
@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
 let map, service, infowindow, autocomplete;
 
 function initializeMap() {
+    console.log("Initializing map...");
     const center = { lat: 36.5, lng: 127.5 }; // Centered on Korea
     map = new google.maps.Map(document.getElementById("map"), {
         center: center,
@@ -35,6 +36,7 @@ function initializeMap() {
     autocomplete.bindTo('bounds', map);
 
     autocomplete.addListener('place_changed', function() {
+        console.log("Place changed event triggered.");
         infowindow.close();
         const place = autocomplete.getPlace();
 
