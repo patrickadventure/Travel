@@ -96,7 +96,7 @@
                 }
 
                 const location = place.geometry.location;
-                const marker = new google.maps.marker.AdvancedMarkerElement({
+                const marker = new google.maps.Marker({
                     position: location,
                     map: map,
                     title: place.name
@@ -127,11 +127,11 @@
                 service.findPlaceFromQuery(request, function(results, status) {
                     if (status === google.maps.places.PlacesServiceStatus.OK && results) {
                         const location = results[0].geometry.location;
-                        const marker = new google.maps.marker.AdvancedMarkerElement({
+                        const marker = new google.maps.Marker({
                             position: location,
                             map: map,
                             title: results[0].name,
-                            category: category
+                            icon: getMarkerIcon(category)
                         });
 
                         infowindow.setContent(results[0].name);
@@ -170,11 +170,11 @@
                 querySnapshot.forEach(doc => {
                     const data = doc.data();
                     const location = new google.maps.LatLng(data.lat, data.lng);
-                    const marker = new google.maps.marker.AdvancedMarkerElement({
+                    const marker = new google.maps.Marker({
                         position: location,
                         map: map,
                         title: data.name,
-                        category: data.category
+                        icon: getMarkerIcon(data.category)
                     });
 
                     google.maps.event.addListener(marker, 'click', () => {
@@ -185,6 +185,19 @@
             }).catch(error => {
                 console.error('Error loading markers: ', error);
             });
+        }
+
+        function getMarkerIcon(category) {
+            const color = {
+                food: 'blue',
+                activity: 'red',
+                drinks: 'green',
+                treatment: 'pink'
+            }[category];
+
+            return {
+                url: `http://maps.google.com/mapfiles/ms/icons/${color}-dot.png`
+            };
         }
     </script>
     <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYzrFlKp-lrgUisQwWezfZTPdN-NJvBvE&libraries=places&callback=initializeMap"></script>
