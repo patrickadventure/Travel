@@ -5,19 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Map of Korea</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="expense.css">
-    <style>
-        #map {
-            height: 600px;
-            width: 100%;
-            border-radius: 10px;
-        }
-        @media (max-width: 768px) {
-            .form-container, .map-container {
-                width: 100%;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="map.css">
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script type="module" src="map.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYzrFlKp-lrgUisQwWezfZTPdN-NJvBvE&libraries=places&callback=initializeMap"></script>
 </head>
 <body>
     <div id="header-placeholder"></div>
@@ -45,7 +36,5 @@
     <div id="footer-placeholder"></div>
 
     <script src="scripts.js"></script>
-    <script type="module" src="map.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYzrFlKp-lrgUisQwWezfZTPdN-NJvBvE&libraries=places&callback=initializeMap"></script>
 </body>
 </html>
