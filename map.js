@@ -1,5 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js';
-import { getFirestore, collection, getDocs, addDoc } from 'https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js';
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCZURzxdOwJauWX-CT8BYN1VSQ5a7JJWBk",
@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 let map, service, infowindow, autocomplete;
+let markers = [];
 
 window.initializeMap = function() {
     console.log("Initializing map...");
@@ -51,6 +52,7 @@ window.initializeMap = function() {
             title: place.name
         });
 
+        markers.push(marker);
         infowindow.setContent(place.name);
         infowindow.open(map, marker);
 
@@ -79,6 +81,7 @@ window.initializeMap = function() {
                     icon: getMarkerIcon(category)
                 });
 
+                markers.push(marker);
                 infowindow.setContent(results[0].name);
                 infowindow.open(map, marker);
 
@@ -91,6 +94,10 @@ window.initializeMap = function() {
         });
 
         document.getElementById('locationForm').reset();
+    });
+
+    document.getElementById('removeMarkersButton').addEventListener('click', function() {
+        removeMarkers();
     });
 }
 
@@ -121,6 +128,7 @@ async function loadMarkers() {
                 icon: getMarkerIcon(data.category)
             });
 
+            markers.push(marker);
             google.maps.event.addListener(marker, 'click', () => {
                 infowindow.setContent(data.name);
                 infowindow.open(map, marker);
@@ -128,6 +136,24 @@ async function loadMarkers() {
         });
     } catch (error) {
         console.error('Error loading markers: ', error);
+    }
+}
+
+function removeMarkers() {
+    markers.forEach(marker => marker.setMap(null));
+    markers = [];
+    clearMarkersFromFirebase();
+}
+
+async function clearMarkersFromFirebase() {
+    try {
+        const querySnapshot = await getDocs(collection(db, 'markers'));
+        querySnapshot.forEach(async doc => {
+            await deleteDoc(doc(db, 'markers', doc.id));
+        });
+        console.log('All markers removed from Firebase');
+    } catch (error) {
+        console.error('Error removing markers: ', error);
     }
 }
 
