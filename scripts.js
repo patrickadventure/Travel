@@ -3,20 +3,20 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function loadHeaderFooter() {
-    if (!document.getElementById('main-header')) {
+    if (!document.querySelector('header')) {
         fetch('header.html')
             .then(response => response.text())
             .then(data => {
-                document.body.insertAdjacentHTML('afterbegin', data);
+                document.getElementById('header-placeholder').innerHTML = data;
                 setupDropdown(); // Setup dropdown after the header is loaded
             });
     }
 
-    if (!document.getElementById('main-footer')) {
+    if (!document.querySelector('footer')) {
         fetch('footer.html')
             .then(response => response.text())
             .then(data => {
-                document.body.insertAdjacentHTML('beforeend', data);
+                document.getElementById('footer-placeholder').innerHTML = data;
             });
     }
 }
