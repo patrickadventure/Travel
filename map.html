@@ -57,10 +57,12 @@
         document.getElementById('locationForm').addEventListener('submit', function(e) {
             e.preventDefault();
             var locationName = document.getElementById('locationName').value;
+            console.log("Searching for location: " + locationName);
 
             // Search for the location
             places.keywordSearch(locationName, function(result, status) {
                 if (status === kakao.maps.services.Status.OK) {
+                    console.log("Location found:", result[0]);
                     var latitude = result[0].y;
                     var longitude = result[0].x;
                     var markerPosition = new kakao.maps.LatLng(latitude, longitude); 
@@ -77,6 +79,7 @@
                     // Center map to the marker
                     map.setCenter(markerPosition);
                 } else {
+                    console.error("Location not found. Status:", status);
                     alert('Location not found.');
                 }
             });
@@ -86,7 +89,9 @@
         });
 
         // Load header and footer
-        loadHeaderFooter();
+        document.addEventListener('DOMContentLoaded', function() {
+            loadHeaderFooter();
+        });
     </script>
 </body>
 </html>
