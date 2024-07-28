@@ -13,15 +13,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-document.addEventListener('DOMContentLoaded', function() {
-    loadHeaderFooter(); 
-});
-
 let map, service, infowindow, autocomplete;
 let markers = [];
 
 window.initializeMap = function() {
-    console.log("Initializing map...");
     const center = { lat: 36.5, lng: 127.5 }; // Centered on Korea
     map = new google.maps.Map(document.getElementById("map"), {
         center: center,
@@ -36,7 +31,6 @@ window.initializeMap = function() {
     autocomplete.bindTo('bounds', map);
 
     autocomplete.addListener('place_changed', function() {
-        console.log("Place changed event triggered.");
         infowindow.close();
         const place = autocomplete.getPlace();
 
