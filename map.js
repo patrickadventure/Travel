@@ -15,12 +15,11 @@ const db = getFirestore(app);
 
 document.addEventListener('DOMContentLoaded', function() {
     loadHeaderFooter(); 
-    initializeMap();
 });
 
 let map, service, infowindow, autocomplete;
 
-function initializeMap() {
+window.initializeMap = function() {
     console.log("Initializing map...");
     const center = { lat: 36.5, lng: 127.5 }; // Centered on Korea
     map = new google.maps.Map(document.getElementById("map"), {
