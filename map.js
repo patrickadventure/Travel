@@ -1,5 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js';
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js';
+import { getFirestore, collection, getDocs, addDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCZURzxdOwJauWX-CT8BYN1VSQ5a7JJWBk",
@@ -21,6 +21,8 @@ window.initializeMap = function() {
     map = new google.maps.Map(document.getElementById("map"), {
         center: center,
         zoom: 7,
+        disableDefaultUI: true, // Disable default UI
+        zoomControl: true, // Keep zoom control
     });
 
     service = new google.maps.places.PlacesService(map);
