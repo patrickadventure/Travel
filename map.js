@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
+import { getFirestore, collection, getDocs, addDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAYzrFlKp-lrgUisQwWezfZTPdN-NJvBvE",
@@ -25,41 +25,38 @@ window.initializeMap = function () {
     const autocomplete = new google.maps.places.Autocomplete(document.getElementById('locationName'));
     autocomplete.bindTo('bounds', map);
 
-    document.getElementById('locationForm').addEventListener('submit', async function (e) {
-        e.preventDefault();
-        const locationName = document.getElementById('locationName').value;
-        const date = document.getElementById('date').value;
-        const category = document.getElementById('category').value;
+    autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace();
+        if (!place.geometry || !place.geometry.location) {
+            return;
+        }
 
-        const request = {
-            query: locationName,
-            fields: ['name', 'geometry'],
-        };
+        document.getElementById('locationForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const locationName = place.name;
+            const date = document.getElementById('date').value;
+            const category = document.getElementById('category').value;
 
-        const service = new google.maps.places.PlacesService(map);
-        service.findPlaceFromQuery(request, async function (results, status) {
-            if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-                const location = results[0].geometry.location;
-                const marker = new google.maps.Marker({
-                    map: map,
-                    position: location,
-                    label: {
-                        text: category.charAt(0).toUpperCase(),
-                        color: getCategoryColor(category),
-                    },
-                });
-                markers.push(marker);
+            const location = place.geometry.location;
+            const marker = new google.maps.Marker({
+                map: map,
+                position: location,
+                label: {
+                    text: category.charAt(0).toUpperCase(),
+                    color: getCategoryColor(category),
+                },
+            });
+            markers.push(marker);
 
-                await addDoc(collection(db, 'markers'), {
-                    locationName,
-                    date,
-                    category,
-                    position: {
-                        lat: location.lat(),
-                        lng: location.lng()
-                    }
-                });
-            }
+            await addDoc(collection(db, 'markers'), {
+                locationName,
+                date,
+                category,
+                position: {
+                    lat: location.lat(),
+                    lng: location.lng()
+                }
+            });
         });
     });
 
