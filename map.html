@@ -10,18 +10,45 @@
             height: 600px;
             width: 100%;
         }
+        .form-container, .map-container {
+            display: inline-block;
+            vertical-align: top;
+        }
         .form-container {
-            margin: 20px 0;
-            text-align: center;
+            width: 35%;
+            padding: 20px;
+        }
+        .map-container {
+            width: 60%;
         }
         .form-container form {
-            display: inline-block;
+            display: block;
             margin-bottom: 20px;
         }
         .form-container input, .form-container button, .form-container select {
             margin: 5px;
             padding: 10px;
             font-size: 16px;
+            width: 90%;
+        }
+        .mobile-only {
+            display: none;
+        }
+        @media (max-width: 768px) {
+            .form-container, .map-container {
+                width: 100%;
+                display: block;
+            }
+            .form-container {
+                padding: 10px;
+            }
+            .map-view, .add-location-view {
+                display: none;
+            }
+            .mobile-only {
+                display: block;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -30,9 +57,14 @@
     
     <main>
         <h1>Interactive Map of Korea</h1>
+        <div class="mobile-only">
+            <button id="showMapButton">Map View</button>
+            <button id="showFormButton">Add Location</button>
+        </div>
         <div class="form-container">
             <form id="locationForm">
                 <input type="text" id="locationName" placeholder="Search Location" required>
+                <input type="date" id="date" required>
                 <select id="category">
                     <option value="food" style="color: blue;">Food</option>
                     <option value="activity" style="color: red;">Activity</option>
@@ -43,7 +75,9 @@
             </form>
             <button id="removeMarkersButton">Remove All Markers</button>
         </div>
-        <div id="map"></div>
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
     </main>
     
     <div id="footer-placeholder"></div>
