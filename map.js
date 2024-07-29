@@ -25,17 +25,35 @@ const customMapStyle = [
     {
         featureType: 'administrative.country',
         elementType: 'geometry.stroke',
-        stylers: [{ visibility: 'on' }, { color: '#ff0000' }]
+        stylers: [{ visibility: 'on' }, { color: '#888888' }, { weight: 0.5 }]
     },
     {
         featureType: 'administrative.country',
         elementType: 'labels',
-        stylers: [{ visibility: 'on' }]
+        stylers: [{ visibility: 'off' }]
     },
     {
-        featureType: 'administrative.country',
-        elementType: 'labels.text.fill',
-        stylers: [{ visibility: 'on' }, { color: '#ff0000' }]
+        featureType: 'administrative.locality',
+        elementType: 'labels',
+        stylers: [{ visibility: 'on' }, { color: '#ffffff' }]
+    },
+    {
+        featureType: 'administrative.province',
+        elementType: 'labels',
+        stylers: [{ visibility: 'off' }]
+    },
+    {
+        featureType: 'administrative.land_parcel',
+        elementType: 'geometry.fill',
+        stylers: [{ visibility: 'off' }]
+    },
+    {
+        featureType: 'landscape',
+        stylers: [{ visibility: 'simplified' }, { color: '#ffffff' }]
+    },
+    {
+        featureType: 'water',
+        stylers: [{ visibility: 'simplified' }, { color: '#cccccc' }]
     }
 ];
 
