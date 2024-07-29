@@ -21,18 +21,17 @@
             flex-direction: row;
             padding: 20px;
         }
-        .form-container, .map-container {
-            background: #fff;
+        .form-container {
+            width: 35%;
+            background: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             margin: 10px;
         }
-        .form-container {
-            width: 35%;
-        }
         .map-container {
-            width: 60%;
+            flex: 1;
+            margin: 10px;
         }
         .form-container form {
             display: block;
@@ -57,32 +56,29 @@
         .form-container button:hover {
             background-color: #555;
         }
+        .form-container .date-slider {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+        .form-container .date-slider button {
+            background-color: transparent;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .form-container .date-slider span {
+            font-size: 16px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
         #map {
-            height: 600px;
+            height: 100%;
             width: 100%;
             border-radius: 10px;
-        }
-        .date-slider {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .date-slider button {
-            background-color: #333;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .date-slider button:hover {
-            background-color: #555;
-        }
-        .date-slider input {
-            width: auto;
-            text-align: center;
         }
         @media (max-width: 768px) {
             main {
@@ -102,10 +98,12 @@
         <div class="form-container">
             <div class="date-slider">
                 <button id="prevDate">&lt;</button>
-                <input type="date" id="currentDate" value="2024-12-20" min="2024-12-20" max="2025-01-03" readonly>
+                <span id="selectedDate">20/12/2024</span>
                 <button id="nextDate">&gt;</button>
             </div>
-            <button id="showAllActivitiesButton">See All Activities</button>
+            <label>
+                <input type="checkbox" id="seeAllDates"> See All Dates
+            </label>
             <form id="locationForm">
                 <input type="text" id="locationName" placeholder="Search Location" required>
                 <input type="date" id="date" required>
