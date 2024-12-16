@@ -126,9 +126,13 @@ th {
     padding: 5px 10px;
     min-width: 80px;
     white-space: nowrap; /* Prevents text wrapping */
+    vertical-align:top;
 }
 
 .actions button {
+    display: block;
+    margin-bottom: 2px;
+    width: 100%;
     background-color: #333;
     color: #fff;
     border: none;
@@ -137,7 +141,9 @@ th {
     padding: 5px 10px;
     margin-right: 5px; /* Add space between buttons */
 }
-
+.actions button:last-child {
+    margin-bottom: 0; /* Remove margin for the last button */
+}
 .actions button:hover {
     background-color: #555;
 }
