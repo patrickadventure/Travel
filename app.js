@@ -37,6 +37,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 data.id = doc.id;
                 expenses.push(data);
             });
+            
+            // Sort expenses by date (newest to oldest)
+            expenses.sort((a, b) => new Date(b.date) - new Date(a.date));
+    
             renderExpenseTable();
             updateMatrix();
         } catch (error) {
