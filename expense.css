@@ -101,32 +101,40 @@ button:hover {
 /* Table Styling */
 .table-container {
     width: 100%;
-    overflow-x: auto;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    margin-bottom: 20px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     font-size: 14px;
+    table-layout: auto; /* Allow dynamic column resizing */
 }
 
 th, td {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: left;
-    min-height: 50px;
-    white-space: nowrap; /* Prevents text wrapping */
+    min-width: 100px; /* Ensure columns have a minimum width */
+    word-wrap: break-word; /* Enable text wrapping */
+    white-space: nowrap; /* Prevent wrapping unless overridden */
 }
 
 th {
     background-color: #f0f0f0;
 }
 
+tr:hover {
+    background-color: #f9f9f9; /* Highlight row on hover */
+}
+
+/* Action Button Styling */
 .actions {
     padding: 5px 10px;
     min-width: 80px;
     white-space: nowrap; /* Prevents text wrapping */
-    vertical-align:top;
+    vertical-align: top;
 }
 
 .actions button {
@@ -141,9 +149,11 @@ th {
     padding: 5px 10px;
     margin-right: 5px; /* Add space between buttons */
 }
+
 .actions button:last-child {
     margin-bottom: 0; /* Remove margin for the last button */
 }
+
 .actions button:hover {
     background-color: #555;
 }
@@ -226,8 +236,7 @@ th {
         font-size: 12px;
     }
 
-    .actions button {
-        padding: 5px;
-        font-size: 12px;
+    th, td {
+        min-width: 80px; /* Reduce the minimum width for smaller screens */
     }
 }
