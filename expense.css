@@ -116,9 +116,10 @@ th, td {
     padding: 10px;
     text-align: left;
     min-width: 100px; /* Ensure columns have a minimum width */
-    white-space: nowrap; /* Prevent text wrapping */
-    overflow: hidden; /* Hide overflowing text */
-    text-overflow: ellipsis; /* Add ellipsis for overflowing text */
+    word-wrap: break-word; /* Enable text wrapping for long words */
+    white-space: normal; /* Allow text to wrap */
+    overflow: hidden; /* Hide overflowing text if necessary */
+    text-overflow: ellipsis; /* Show ellipsis for overflow if wrapping fails */
 }
 
 th {
