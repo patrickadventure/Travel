@@ -241,13 +241,13 @@ tr:hover {
     }
 }
 @media (max-width: 600px) {
-    button {
-        writing-mode: vertical-lr; /* Makes the text flow vertically */
-        text-orientation: upright; /* Ensures text remains upright */
-        transform: rotate(180deg); /* Adjust direction if needed */
-        padding: 20px 10px; /* Add padding to fit the new layout */
-        width: auto; /* Allow width to adjust to the vertical layout */
-        height: auto; /* Adjust height as needed */
-        white-space: nowrap; /* Prevent text wrapping */
+    .actions button {
+        writing-mode: vertical-rl; /* Makes the text flow vertically from top to bottom */
+        text-orientation: upright; /* Ensures text is upright */
+        transform: none; /* Ensure no additional rotation */
+        padding: 20px 10px; /* Adjust padding for vertical layout */
+        white-space: nowrap; /* Prevent wrapping */
+        width: auto; /* Adjust width dynamically */
+        height: auto; /* Adjust height dynamically */
     }
 }
