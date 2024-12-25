@@ -240,3 +240,14 @@ tr:hover {
         min-width: 100px;
     }
 }
+@media (max-width: 600px) {
+    button {
+        writing-mode: vertical-lr; /* Makes the text flow vertically */
+        text-orientation: upright; /* Ensures text remains upright */
+        transform: rotate(180deg); /* Adjust direction if needed */
+        padding: 20px 10px; /* Add padding to fit the new layout */
+        width: auto; /* Allow width to adjust to the vertical layout */
+        height: auto; /* Adjust height as needed */
+        white-space: nowrap; /* Prevent text wrapping */
+    }
+}
