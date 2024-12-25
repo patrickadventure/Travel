@@ -12,56 +12,67 @@
     <h1>About Korea 2024/2025</h1>
     <p>Here are some favorite moments from the trip so far, shared by each traveler.</p>
 
-    <section class="video-grid">
-      <!-- David's Highlight -->
-      <div class="video-card">
-        <video class="rounded-video" controls>
-          <source src="david-highlight.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-        <div class="video-description">
-          <h2>David</h2>
-          <p>"This is my favorite part of the trip so far on Christmas."</p>
-        </div>
-      </div>
-
-      <!-- Jen's Highlight -->
-      <div class="video-card">
-        <div class="no-video">
-          <p>This person chose not to record cause they're lazy.</p>
-        </div>
-        <div class="video-description">
-          <h2>Jen</h2>
-          <p>"My favorite moment was walking by the Han River on Christmas."</p>
-        </div>
-      </div>
-
-      <!-- Tik's Highlight -->
-      <div class="video-card">
-        <video class="rounded-video" controls>
-          <source src="tik-highlight.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-        <div class="video-description">
-          <h2>Tik</h2>
-          <p>"This quiet moment at the rooftop cafe felt like a dream."</p>
-        </div>
-      </div>
-
-      <!-- Julia's Highlight -->
-      <div class="video-card">
-        <video class="rounded-video" controls>
-          <source src="julia-highlight.mp4" type="video/mp4">
-          <p>This person chose not to record cause they're lazy.</p>
-        </div>
-        <div class="video-description">
-          <h2>Julia</h2>
-          <p>"Exploring the city lights on Christmas Eve was magical."</p>
-        </div>
-      </div>
-    </section>
+    <section class="video-grid" id="videoGrid"></section>
   </main>
 
-  <script src="scripts.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const videoGrid = document.getElementById("videoGrid");
+
+      // Data for travelers and video file names
+      const travelers = [
+        { name: "David", file: "david-highlight.mp4", text: "David liked the fact that we were excluded from a club cause we were too old." },
+        { name: "Julia", file: "julia-highlight.mp4", text: "Julia really liked her skin treatment / fillers that she need on her lips." },
+        { name: "Jen", file: "jen-highlight.mp4", text: "Jen hasn't done a video yet." },
+        { name: "Tik", file: "tik-highlight.mp4", text: "Tik really liked talking to randoms in the club at Itaewon." }
+      ];
+
+      // Function to check if a video exists
+      const videoExists = (url) => {
+        return new Promise((resolve) => {
+          const video = document.createElement("video");
+          video.src = url;
+          video.onloadedmetadata = () => resolve(true);
+          video.onerror = () => resolve(false);
+        });
+      };
+
+      // Populate the grid dynamically
+      travelers.forEach(async (traveler) => {
+        const videoCard = document.createElement("div");
+        videoCard.className = "video-card";
+
+        // Check if the video file exists
+        const exists = await videoExists(traveler.file);
+
+        if (exists) {
+          // Add video
+          videoCard.innerHTML = `
+            <video class="rounded-video" controls>
+              <source src="${traveler.file}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <div class="video-description">
+              <h2>${traveler.name}</h2>
+              <p>${traveler.text}</p>
+            </div>
+          `;
+        } else {
+          // Add fallback text
+          videoCard.innerHTML = `
+            <div class="no-video">
+              <p>This person chose not to record cause they're lazy.</p>
+            </div>
+            <div class="video-description">
+              <h2>${traveler.name}</h2>
+              <p>${traveler.text}</p>
+            </div>
+          `;
+        }
+
+        videoGrid.appendChild(videoCard);
+      });
+    });
+  </script>
 </body>
 </html>
